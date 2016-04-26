@@ -1,7 +1,6 @@
 
 
 import java.io.IOException;
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(urlPatterns = { "/*" })
+@WebFilter("/*")
 public class LoginFilter implements Filter {
 
     /**
