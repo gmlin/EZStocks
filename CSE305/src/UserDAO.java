@@ -1,0 +1,46 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class UserDAO {
+
+	private Connection connection;
+	private Statement statement;
+	private ResultSet rs;
+	
+	public User getUser(String username, String password) {
+		String query = "SELECT * FROM user WHERE username='" + username
+				+ "' AND password='" + password + "'";
+		User user = null;
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if (rs.next()) {
+				user = new User();
+				user.setUsername(rs.getString("Username"));
+				user.setPassword(rs.getString("Password"));
+				user.setLastName(rs.getString("LastName"));
+				user.setFirstName(rs.getString("FirstName"));
+				user.setAddress(rs.getString("Address"));
+				user.setCity(rs.getString("City"));
+				user.setState(rs.getString("State"));
+				user.setZipCode(rs.getString("ZipCode"));
+				user.setPhoneNumber(rs.getString("PhoneNumber"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
+	}
+}

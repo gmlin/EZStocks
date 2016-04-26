@@ -40,7 +40,9 @@ public class LoginFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse)resp;
 		HttpSession session = request.getSession();
 		if (session.getAttribute("username") == null) {
-			if (!request.getRequestURI().equals("/CSE305/login.jsp")) {
+			String requestURI = request.getRequestURI();
+			System.out.println(requestURI);
+			if (!requestURI.equals("/CSE305/login.jsp") && !requestURI.equals("/CSE305/login")) {
 				response.sendRedirect("/CSE305/login.jsp");
 			}
 		}		
