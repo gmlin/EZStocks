@@ -25,24 +25,23 @@ INSERT INTO Transaction (Id, Fee, DateTime, PricePerShare) VALUES
 	(1, 5, '2007-01-01 01:15:12', 34.23),
 	(2, 5, '2007-01-01 01:25:12', 90);
  
-INSERT INTO Stock (StockSymbol, CompanyName, Type, PricePerShare, NumShares) VALUES
+INSERT INTO Stock (Symbol, Company, Type, PricePerShare, NumShares) VALUES
 	("GM", "General Motors", "automotive", 34.23, 1000),
 	("IBM", "IBM", "computer", 91.41, 500),
 	("F", "Ford", "automotive", 9.0, 750);
     
-INSERT INTO `Order` (NumShares, PricePerShare, Id, DateTime,
-Percentage, PriceType, OrderType, StockId) VALUES
-	(75, 34.23, 1, '2007-01-01 01:15:12', NULL, 'Market', 'Buy', "GM"),
-	(10, 100, 2, '2007-01-01 01:25:12', 0.1, '‘TrailingStop’', 'Sell', "IBM");
+INSERT INTO `Order` (Id, Stock, NumShares, DateTime, PricePerShare,
+Percentage, PriceType, OrderType) VALUES
+	(1, "GM", 75, '2007-01-01 01:15:12', 34.23, NULL, 'Market', 'Buy'),
+	(2, "IBM", 10, '2007-01-01 01:25:12', 100, 0.1, 'TrailingStop', 'Sell');
 
+INSERT INTO AccountStock (Client, AccountNum, Stock, NumShares) VALUES
+	(444444444, 1, "GM", 250),
+	(444444444, 1, "F", 100),
+	(222222222, 1, "IBM", 50);
 
-INSERT INTO HasStock (AccountId, StockId, NumShares) VALUES
-	(1, "GM", 250),
-	(1, "F", 100),
-	(2, "IBM", 50);
-
-INSERT INTO Trade (AccountId, BrokerId, TransactionId, 
-OrderId, StockId) VALUES
-	(1, 1, 1, 1, "GM"),
-    (2, 1, 2, 2, "IBM");
+INSERT INTO Trade (Client, AccountNum, Employee, Transaction, 
+`Order`, Stock) VALUES
+	(444444444, 1, 123456789, 1, 1, "GM"),
+    (222222222, 1, 123456789, 2, 2, "IBM");
         

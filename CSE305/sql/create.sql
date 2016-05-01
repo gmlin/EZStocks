@@ -84,8 +84,9 @@ CREATE Table `Order` (
 	CONSTRAINT CheckPriceType
 		CHECK (PriceType IN (‘Market’, ‘MarketOnClose’, ‘TrailingStop’, ‘HiddenStop’)),
 	CONSTRAINT CheckOrderType
-		CHECK (OrderType IN (‘B’, ‘S’))
+		CHECK (OrderType IN (‘Buy’, ‘Sell’))
 );
+
 
 CREATE Table AccountStock (
 	Client INTEGER NOT NULL,

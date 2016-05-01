@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.Account;
+import beans.AccountStock;
 import beans.Client;
 import beans.Employee;
 import beans.User;
@@ -26,12 +27,14 @@ public class LoginServlet extends HttpServlet {
 	private ClientDAO clientDAO;
 	private EmployeeDAO employeeDAO;
 	private AccountDAO accountDAO;
+	private AccountStockDAO accountStockDAO;
 
 	public void init() {
 		userDAO = new UserDAO();
 		clientDAO = new ClientDAO();
 		employeeDAO = new EmployeeDAO();
 		accountDAO = new AccountDAO();
+		accountStockDAO = new AccountStockDAO();
 	}
 
 	/**
@@ -50,8 +53,10 @@ public class LoginServlet extends HttpServlet {
 			if (client != null) {
 				session.setAttribute("role", "Client");
 				session.setAttribute("client", client);
-				List<Account> accounts = accountDAO.getAccounts(client.getId());
+				List<Account> accounts = accountDAO.getAccounts(client);
 				session.setAttribute("accounts", accounts);
+				List<AccountStock> accountStocks = accountStockDAO.getAccountStocks(accountDAO, client);
+				session.setAttribute("accountStocks", accountStocks);
 			}
 			else {
 				Employee employee = employeeDAO.getEmployee(user.getSsn());
