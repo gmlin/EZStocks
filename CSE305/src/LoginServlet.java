@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.Account;
 import beans.Client;
 import beans.Employee;
 import beans.User;
@@ -23,11 +25,13 @@ public class LoginServlet extends HttpServlet {
 	private UserDAO userDAO;
 	private ClientDAO clientDAO;
 	private EmployeeDAO employeeDAO;
+	private AccountDAO accountDAO;
 
 	public void init() {
 		userDAO = new UserDAO();
 		clientDAO = new ClientDAO();
 		employeeDAO = new EmployeeDAO();
+		accountDAO = new AccountDAO();
 	}
 
 	/**
@@ -46,6 +50,8 @@ public class LoginServlet extends HttpServlet {
 			if (client != null) {
 				session.setAttribute("role", "Client");
 				session.setAttribute("client", client);
+				List<Account> accounts = accountDAO.getAccounts(client.getId());
+				session.setAttribute("accounts", accounts);
 			}
 			else {
 				Employee employee = employeeDAO.getEmployee(user.getSsn());

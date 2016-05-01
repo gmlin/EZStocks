@@ -34,7 +34,6 @@ public class ClientDAO {
 				rs.close();
 				statement.close();
 				connection.close();
-				connection.setAutoCommit(true);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

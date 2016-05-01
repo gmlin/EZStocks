@@ -7,7 +7,6 @@ INSERT INTO User (Username, Password, SSN, LastName, FirstName, Address, City, S
 	("sdavid", "123", 123456789, "Smith", "David", "123 College road", "Stony Brook", "NY", 11790, 5162152345),
 	("wdavid", "123", 789123456, "Warren", "David", "456 Sunken Street", "Stony Brook", "NY", 11794, 6316329987);
 
-	
 INSERT INTO Employee (Id, StartDate, HourlyRate, Type) VALUES
 	(123456789, '2005-11-01', 60, "Broker"),
 	(789123456, '2006-02-02', 50, "Manager");
@@ -18,9 +17,9 @@ INSERT INTO Client (Id, Email, CC, Rating) VALUES
 	(333333333, "jsmith@ic.sunysb.edu", 2345678923456789, 1),
 	(444444444, "pml@cs.sunysb.edu", 6789234567892345, 1);
 	
-INSERT INTO Account (Id, DateOpened, Client) VALUES
-	(1, '2006-10-01', 444444444),
-	(2, '2006-10-15', 222222222);
+INSERT INTO Account (Client, AccountNum, DateOpened) VALUES
+	(444444444, 1, '2006-10-01'),
+	(222222222, 1, '2006-10-15');
 
 INSERT INTO Transaction (Id, Fee, DateTime, PricePerShare) VALUES
 	(1, 5, '2007-01-01 01:15:12', 34.23),

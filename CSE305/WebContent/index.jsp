@@ -31,6 +31,11 @@
 		Email: <c:out value="${client.email}" /><br>
 		Credit Card: <c:out value="${client.creditCard}" /><br>
 		Rating: <c:out value="${client.rating}" /><br>
+		<c:forEach items="${sessionScope.accounts}" var="account">
+			Client: <c:out value="${account.client}" /><br>
+			Account Number: <c:out value="${account.accountNum}" /><br>
+			Date Opened: <c:out value="${account.dateOpened}" /><br>
+		</c:forEach>
 	</c:if>
 	<c:if test="${sessionScope.role ne 'Client'}">
 		<jsp:useBean id="employee" class="beans.Employee" scope="session" />

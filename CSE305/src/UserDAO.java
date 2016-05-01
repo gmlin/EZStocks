@@ -40,7 +40,6 @@ public class UserDAO {
 				rs.close();
 				statement.close();
 				connection.close();
-				connection.setAutoCommit(true);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

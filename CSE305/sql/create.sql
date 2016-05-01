@@ -42,10 +42,10 @@ CREATE Table Employee (
 );
 
 CREATE Table Account (
-	Id INTEGER NOT NULL,
-	DateOpened DATE NOT NULL,
 	Client INTEGER NOT NULL,
-	PRIMARY KEY (Id),
+	AccountNum INTEGER NOT NULL,
+	DateOpened DATE NOT NULL,
+	PRIMARY KEY (Client, AccountNum),
 	FOREIGN KEY (Client) REFERENCES Client (Id)
 		ON DELETE NO ACTION
 		ON UPDATE CASCADE
@@ -88,11 +88,12 @@ CREATE Table `Order` (
 );
 
 CREATE Table AccountStock (
-	Account INTEGER NOT NULL,
+	Client INTEGER NOT NULL,
+	AccountNum INTEGER NOT NULL,
 	Stock VARCHAR(5) NOT NULL,
 	NumShares INTEGER NOT NULL,
-	PRIMARY KEY (Account, Stock),
-	FOREIGN KEY (Account) REFERENCES Account (Id)
+	PRIMARY KEY (Client, AccountNum, Stock),
+	FOREIGN KEY (Client, AccountNum) REFERENCES Account (Client, AccountNum)
 		ON DELETE NO ACTION
 		ON UPDATE CASCADE,
 	FOREIGN KEY (Stock) REFERENCES Stock (Symbol)
@@ -101,13 +102,14 @@ CREATE Table AccountStock (
 );
 
 CREATE Table Trade (
-	Account INTEGER NOT NULL,
+	Client INTEGER NOT NULL,
+	AccountNum INTEGER NOT NULL,
 	Employee INTEGER NOT NULL,
 	Transaction INTEGER NOT NULL,
 	`Order` INTEGER NOT NULL,
 	Stock VARCHAR(5) NOT NULL,
-	PRIMARY KEY (Account, Employee, Transaction, `Order`, Stock),
-	FOREIGN KEY (Account) REFERENCES Account (Id)
+	PRIMARY KEY (Client, AccountNum, Employee, Transaction, `Order`, Stock),
+	FOREIGN KEY (Client, AccountNum) REFERENCES Account (Client, AccountNum)
 		ON DELETE NO ACTION
 		ON UPDATE CASCADE,
 	FOREIGN KEY (Employee) REFERENCES Employee (Id)
