@@ -42,7 +42,7 @@ public class LoginFilter implements Filter {
 		if (session.getAttribute("username") == null) {
 			String requestURI = request.getRequestURI();
 			System.out.println(requestURI);
-			if (!requestURI.equals("/CSE305/login.jsp") && !requestURI.equals("/CSE305/login")) {
+			if (!requestURI.contains("/static") && !requestURI.equals("/CSE305/login.jsp") && !requestURI.equals("/CSE305/login")) {
 				response.sendRedirect("/CSE305/login.jsp");
 			}
 		}		

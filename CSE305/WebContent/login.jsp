@@ -3,6 +3,8 @@
 <html>
 <head>
 <title>EZStocks Login</title>
+<link rel="stylesheet" href="static/css/bootstrap.min.css">
+<link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
 </head>
 <body>
 	<c:if test="${not empty requestScope.message}">
@@ -14,5 +16,7 @@
 		<input id="password" name="password" type="password"><br>
 		<input type="submit" value="Submit">
 	</form>
+	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/jquery-2.2.3.min.js"></script>
 </body>
 </html>

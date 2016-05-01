@@ -1,14 +1,16 @@
+package beans;
 
 public class User {
 	private String username;
 	private String password;
+	private int ssn;
 	private String lastName;
 	private String firstName;
 	private String address;
 	private String city;
 	private String state;
-	private String zipCode;
-	private String phoneNumber;
+	private int zipCode;
+	private long phoneNumber;
 	
 	public String getUsername() {
 		return username;
@@ -21,6 +23,12 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public int getSsn() {
+		return ssn;
+	}
+	public void setSsn(int ssn) {
+		this.ssn = ssn;
 	}
 	public String getLastName() {
 		return lastName;
@@ -52,16 +60,16 @@ public class User {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getZipCode() {
+	public int getZipCode() {
 		return zipCode;
 	}
-	public void setZipCode(String zipCode) {
+	public void setZipCode(int zipCode) {
 		this.zipCode = zipCode;
 	}
-	public String getPhoneNumber() {
+	public long getPhoneNumber() {
 		return phoneNumber;
 	}
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 	
