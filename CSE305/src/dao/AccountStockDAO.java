@@ -18,9 +18,9 @@ public class AccountStockDAO {
 	private Statement statement;
 	private ResultSet rs;
 	
-	public List<AccountStock> getAccountStocks(int client) {
+	public List<AccountStock> getAccountStocks(int client, int accountNum) {
 		String query = "SELECT * FROM accountstock WHERE client=" + 
-				client;
+				client + " AND accountNum=" + accountNum;
 		List<AccountStock> accountStocks = new ArrayList<AccountStock>();
 		AccountStock accountStock;
 		try {
@@ -31,7 +31,7 @@ public class AccountStockDAO {
 			while (rs.next()) {
 				accountStock = new AccountStock();
 				accountStock.setClient(client);
-				accountStock.setAccountNum(rs.getInt("AccountNum"));
+				accountStock.setAccountNum(accountNum);
 				accountStock.setStock(rs.getString("Stock"));
 				accountStock.setNumShares(rs.getInt("NumShares"));
 				accountStocks.add(accountStock);
@@ -49,4 +49,5 @@ public class AccountStockDAO {
 		}
 		return accountStocks;
 	}
+
 }

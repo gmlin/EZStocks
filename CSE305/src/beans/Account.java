@@ -28,8 +28,4 @@ public class Account {
 	public void setDateOpened(Date dateOpened) {
 		this.dateOpened = dateOpened;
 	}
-	public List<AccountStock> getAccountStocks() {
-		AccountStockDAO accountStockDAO = new AccountStockDAO();
-		return accountStockDAO.getAccountStocks(client);
-	}
 }

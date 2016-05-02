@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Accounts</title>
+<title>Portfolio</title>
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
 <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
 
@@ -12,13 +12,13 @@
 		<c:out value="${requestScope.message}" />
 		<br>
 	</c:if>
-	<c:forEach items="${requestScope.accounts}" var="account">
-			Account Number: <c:out value="${account.accountNum}" />
+	Account Number: <c:out value="${requestScope.accountNum}" />
+	<br>
+	<c:forEach items="${requestScope.accountStocks}" var="accountStock">
+		Stock: <c:out value="${accountStock.stock}" />
 		<br>
-			Date Opened: <c:out value="${account.dateOpened}" />
+		Number of Shares: <c:out value="${accountStock.numShares}" />
 		<br>
-		<a href="portfolio?account=${account.accountNum}">Portfolio</a><br>
-		<a href="orders?account=${account.accountNum}">Orders</a><br>
 	</c:forEach>
 	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/jquery-2.2.3.min.js"></script>
