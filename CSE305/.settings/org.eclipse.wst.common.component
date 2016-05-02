@@ -2,12 +2,6 @@
     <wb-module deploy-name="CSE305">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <dependent-module archiveName="jstl-1.2.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/jstl-1.2/jstl-1.2">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="mysql-connector-java-5.1.11-bin.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/mysql-connector-java-5.1.11-bin/mysql-connector-java-5.1.11-bin">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="CSE305"/>
         <property name="java-output-path" value="/CSE305/build/classes"/>
     </wb-module>
