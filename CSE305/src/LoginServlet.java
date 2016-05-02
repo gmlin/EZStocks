@@ -16,6 +16,11 @@ import beans.AccountStock;
 import beans.Client;
 import beans.Employee;
 import beans.User;
+import dao.AccountDAO;
+import dao.AccountStockDAO;
+import dao.ClientDAO;
+import dao.EmployeeDAO;
+import dao.UserDAO;
 
 /**
  * Servlet implementation class LoginServlet
@@ -53,9 +58,9 @@ public class LoginServlet extends HttpServlet {
 			if (client != null) {
 				session.setAttribute("role", "Client");
 				session.setAttribute("client", client);
-				List<Account> accounts = accountDAO.getAccounts(client);
+				List<Account> accounts = accountDAO.getAccounts(client.getId());
 				session.setAttribute("accounts", accounts);
-				List<AccountStock> accountStocks = accountStockDAO.getAccountStocks(accountDAO, client);
+				List<AccountStock> accountStocks = accountStockDAO.getAccountStocks(client.getId());
 				session.setAttribute("accountStocks", accountStocks);
 			}
 			else {

@@ -1,16 +1,19 @@
 package beans;
 
 import java.sql.Date;
+import java.util.List;
+
+import dao.AccountStockDAO;
 
 public class Account {
-	private Client client;
+	private int client;
 	private int accountNum;
 	private Date dateOpened;
 	
-	public Client getClient() {
+	public int getClient() {
 		return client;
 	}
-	public void setClient(Client client) {
+	public void setClient(int client) {
 		this.client = client;
 	}
 	public int getAccountNum() {
@@ -25,5 +28,8 @@ public class Account {
 	public void setDateOpened(Date dateOpened) {
 		this.dateOpened = dateOpened;
 	}
-	
+	public List<AccountStock> getAccountStocks() {
+		AccountStockDAO accountStockDAO = new AccountStockDAO();
+		return accountStockDAO.getAccountStocks(client);
+	}
 }

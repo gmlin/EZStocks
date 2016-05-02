@@ -1,3 +1,4 @@
+package dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +23,8 @@ public class UserDAO {
 			rs = statement.executeQuery(query);
 			if (rs.next()) {
 				user = new User();
-				user.setUsername(rs.getString("Username"));
-				user.setPassword(rs.getString("Password"));
+				user.setUsername(username);
+				user.setPassword(password);
 				user.setSsn(rs.getInt("SSN"));
 				user.setLastName(rs.getString("LastName"));
 				user.setFirstName(rs.getString("FirstName"));

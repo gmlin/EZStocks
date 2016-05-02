@@ -1,31 +1,34 @@
+package dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import beans.Client;
+import beans.Stock;
 import beans.User;
 
-public class ClientDAO {
+public class StockDAO {
 
 	private Connection connection;
 	private Statement statement;
 	private ResultSet rs;
 	
-	public Client getClient(int id) {
-		String query = "SELECT * FROM client WHERE id=" + id;
-		Client client = null;
+	public Stock getStock(String symbol) {
+		String query = "SELECT * FROM stock WHERE symbol=" + symbol;
+		Stock stock = null;
 		try {
 			connection = ConnectionManager.createConnection();
 			connection.setAutoCommit(false);
 			statement = connection.createStatement();
 			rs = statement.executeQuery(query);
 			if (rs.next()) {
-				client = new Client();
-				client.setId(rs.getInt("Id"));
-				client.setEmail(rs.getString("Email"));
-				client.setCreditCard(rs.getLong("CC"));
-				client.setRating(rs.getInt("Rating"));
+				stock = new Stock();
+				stock.setSymbol(symbol);
+				stock.setCompany(rs.getString("Company"));
+				stock.setType(rs.getString("Type"));
+				stock.setPricePerShare(rs.getDouble("PricePerShare"));
+				stock.setNumShares(rs.getInt("NumShares"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -38,6 +41,6 @@ public class ClientDAO {
 				e.printStackTrace();
 			}
 		}
-		return client;
+		return stock;
 	}
 }

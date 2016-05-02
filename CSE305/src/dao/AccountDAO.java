@@ -1,3 +1,4 @@
+package dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +16,8 @@ public class AccountDAO {
 	private Statement statement;
 	private ResultSet rs;
 	
-	public List<Account> getAccounts(Client client) {
-		String query = "SELECT * FROM Account WHERE client=" + client.getId();
+	public List<Account> getAccounts(int client) {
+		String query = "SELECT * FROM Account WHERE client=" + client;
 		List<Account> accounts = new ArrayList<Account>();
 		Account account;
 		try {
@@ -45,8 +46,8 @@ public class AccountDAO {
 		return accounts;
 	}
 	
-	public Account getAccount(Client client, int accountNum) {
-		String query = "SELECT * FROM Account WHERE client=" + client.getId()
+	public Account getAccount(int client, int accountNum) {
+		String query = "SELECT * FROM Account WHERE client=" + client
 			+ " AND accountNum=" + accountNum;
 		Account account = null;
 		try {
@@ -57,7 +58,7 @@ public class AccountDAO {
 			if (rs.next()) {
 				account = new Account();
 				account.setClient(client);
-				account.setAccountNum(rs.getInt("AccountNum"));
+				account.setAccountNum(accountNum);
 				account.setDateOpened(rs.getDate("DateOpened"));
 			}
 		} catch (SQLException e) {

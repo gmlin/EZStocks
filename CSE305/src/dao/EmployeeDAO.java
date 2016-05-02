@@ -1,33 +1,33 @@
+package dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import beans.Client;
-import beans.Stock;
+import beans.Employee;
 import beans.User;
 
-public class StockDAO {
+public class EmployeeDAO {
 
 	private Connection connection;
 	private Statement statement;
 	private ResultSet rs;
 	
-	public Stock getStock(String symbol) {
-		String query = "SELECT * FROM stock WHERE symbol=" + symbol;
-		Stock stock = null;
+	public Employee getEmployee(int id) {
+		String query = "SELECT * FROM employee WHERE id=" + id;
+		Employee employee = null;
 		try {
 			connection = ConnectionManager.createConnection();
 			connection.setAutoCommit(false);
 			statement = connection.createStatement();
 			rs = statement.executeQuery(query);
 			if (rs.next()) {
-				stock = new Stock();
-				stock.setSymbol(rs.getString("Symbol"));
-				stock.setCompany(rs.getString("Company"));
-				stock.setType(rs.getString("Type"));
-				stock.setPricePerShare(rs.getDouble("PricePerShare"));
-				stock.setNumShares(rs.getInt("NumShares"));
+				employee = new Employee();
+				employee.setId(id);
+				employee.setStartDate(rs.getDate("StartDate"));
+				employee.setHourlyRate(rs.getDouble("HourlyRate"));
+				employee.setType(rs.getString("Type"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -40,6 +40,6 @@ public class StockDAO {
 				e.printStackTrace();
 			}
 		}
-		return stock;
+		return employee;
 	}
 }

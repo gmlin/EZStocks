@@ -1,3 +1,4 @@
+package dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,12 +18,11 @@ public class AccountStockDAO {
 	private Statement statement;
 	private ResultSet rs;
 	
-	public List<AccountStock> getAccountStocks(AccountDAO accountDAO, Client client) {
+	public List<AccountStock> getAccountStocks(int client) {
 		String query = "SELECT * FROM accountstock WHERE client=" + 
-				client.getId();
+				client;
 		List<AccountStock> accountStocks = new ArrayList<AccountStock>();
 		AccountStock accountStock;
-		Account account;
 		try {
 			connection = ConnectionManager.createConnection();
 			connection.setAutoCommit(false);
@@ -30,9 +30,8 @@ public class AccountStockDAO {
 			rs = statement.executeQuery(query);
 			while (rs.next()) {
 				accountStock = new AccountStock();
-				int accountNum = rs.getInt("accountNum");
-				account = accountDAO.getAccount(client, accountNum);
-				accountStock.setAccount(account);
+				accountStock.setClient(client);
+				accountStock.setAccountNum(rs.getInt("AccountNum"));
 				accountStock.setStock(rs.getString("Stock"));
 				accountStock.setNumShares(rs.getInt("NumShares"));
 				accountStocks.add(accountStock);

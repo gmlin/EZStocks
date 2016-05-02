@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EZStocks</title>
+<title>Accounts</title>
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
 <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
 
@@ -12,11 +12,18 @@
 		<c:out value="${requestScope.message}" />
 		<br>
 	</c:if>
-	<a href="profile.jsp">Profile</a>
-	<c:if test="${sessionScope.role eq 'Client'}">
-		<a href="accounts.jsp">Accounts</a>
-	</c:if>
-	<a href="logout">Logout</a>
+	<c:forEach items="${sessionScope.accounts}" var="account">
+			Account Number: <c:out value="${account.accountNum}" />
+		<br>
+			Date Opened: <c:out value="${account.dateOpened}" />
+		<br>
+		<c:forEach items="${account.accountStocks}" var="accountStock">
+			Stock: <c:out value="${accountStock.stock}" />
+		<br>
+			Number of Shares: <c:out value="${accountStock.numShares}" />
+		<br>
+	</c:forEach>
+	</c:forEach>
 	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/jquery-2.2.3.min.js"></script>
 </body>
