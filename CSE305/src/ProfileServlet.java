@@ -25,33 +25,42 @@ import dao.UserDAO;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/profile")
+public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
+	private ClientDAO clientDAO;
+	private EmployeeDAO employeeDAO;
 
 	public void init() {
 		userDAO = new UserDAO();
+		clientDAO = new ClientDAO();
+		employeeDAO = new EmployeeDAO();
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String username = (String) session.getAttribute("username");
+		String password = (String) session.getAttribute("password");
+		String role = (String) session.getAttribute("role");
 		User user = userDAO.getUser(username, password);
 		RequestDispatcher rd;
 		if (user != null) {
-			session.setAttribute("username", user.getUsername());
-			session.setAttribute("password", user.getPassword());
-			session.setAttribute("role", user.getRole());
-			rd = request.getRequestDispatcher("index.jsp");
+			request.setAttribute("user", user);
+			if (role.equals("Client")) {
+				request.setAttribute("client", clientDAO.getClient(user.getSsn()));
+			}
+			else {
+				request.setAttribute("employee", employeeDAO.getEmployee(user.getSsn()));
+			}
+			rd = request.getRequestDispatcher("profile.jsp");
 		}
 		else {
-			request.setAttribute("message", "Could not log in.");
-			rd = request.getRequestDispatcher("login.jsp");
+			request.setAttribute("message", "Something went wrong.");
+			rd = request.getRequestDispatcher("index.jsp");
 		}
 		rd.forward(request, response);
 	}

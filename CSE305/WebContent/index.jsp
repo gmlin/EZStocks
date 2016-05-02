@@ -12,9 +12,9 @@
 		<c:out value="${requestScope.message}" />
 		<br>
 	</c:if>
-	<a href="profile.jsp">Profile</a>
+	<a href="profile">Profile</a><br>
 	<c:if test="${sessionScope.role eq 'Client'}">
-		<a href="accounts.jsp">Accounts</a>
+		<a href="accounts">Accounts</a><br>
 	</c:if>
 	<a href="logout">Logout</a>
 	<script src="static/js/bootstrap.min.js"></script>

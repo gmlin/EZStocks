@@ -1,5 +1,8 @@
 package beans;
 
+import dao.ClientDAO;
+import dao.EmployeeDAO;
+
 public class User {
 	private String username;
 	private String password;
@@ -72,5 +75,15 @@ public class User {
 	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	
+	public String getRole() {
+		ClientDAO clientDAO = new ClientDAO();
+		if (clientDAO.getClient(ssn) != null) {
+			return "Client";
+		}
+		else {
+			EmployeeDAO employeeDAO = new EmployeeDAO();
+			Employee employee = employeeDAO.getEmployee(ssn);
+			return employee.getType();
+		}
+	}
 }

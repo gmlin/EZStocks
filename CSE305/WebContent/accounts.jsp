@@ -12,7 +12,7 @@
 		<c:out value="${requestScope.message}" />
 		<br>
 	</c:if>
-	<c:forEach items="${sessionScope.accounts}" var="account">
+	<c:forEach items="${requestScope.accounts}" var="account">
 			Account Number: <c:out value="${account.accountNum}" />
 		<br>
 			Date Opened: <c:out value="${account.dateOpened}" />

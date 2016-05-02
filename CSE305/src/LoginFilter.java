@@ -39,7 +39,8 @@ public class LoginFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest)req;
 		HttpServletResponse response = (HttpServletResponse)resp;
 		HttpSession session = request.getSession();
-		if (session.getAttribute("user") == null) {
+		String username = (String) session.getAttribute("username");
+		if (username == null) {
 			String requestURI = request.getRequestURI();
 			System.out.println(requestURI);
 			if (!requestURI.contains("/static") && !requestURI.equals("/CSE305/login.jsp") && !requestURI.equals("/CSE305/login")) {
