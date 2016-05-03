@@ -24,8 +24,19 @@ INSERT INTO Account (Client, AccountNum, DateOpened) VALUES
 INSERT INTO Stock (Symbol, Company, Type, PricePerShare, NumShares) VALUES
 	("GM", "General Motors", "automotive", 34.23, 1000),
 	("IBM", "IBM", "computer", 91.41, 500),
-	("F", "Ford", "automotive", 9.0, 750);
+	("F", "Ford", "automotive", 9.0, 750),
+	("MSFT", "Microsoft", "computer", 146.3, 1000),
+	("AAPL", "Apple", "computer", 112.23, 500),
+	("GS", "Goldman Sachs", "financial", 123, 250);
     
+INSERT INTO StockHistory (Stock, DateTime, Price) VALUES
+	("GM", '2007-01-01 01:15:12', 34.23),
+	("IBM", '2007-01-01 01:25:12', 91.41),
+	("F", '2007-01-01 01:21:12', 9.0);
+	("MSFT", '2007-01-01 01:15:12', 146.3),
+	("AAPL", '2007-01-01 01:25:12', 112.23),
+	("GS", '2007-01-01 01:21:12', 123);
+	
 INSERT INTO `Order` (Id, Client, AccountNum, Stock, Employee, NumShares, 
 DateTime, PricePerShare, Percentage, PriceType, OrderType, Status) VALUES
 	(1, 444444444, 1, "GM", 123456789, 75, '2007-01-01 01:15:12', 34.23, NULL, 'Market', 'Buy', 'Completed'),
@@ -35,7 +46,6 @@ INSERT INTO Transaction (`Order`, Fee, DateTime, PricePerShare) VALUES
 	(1, 5, '2007-01-01 01:15:12', 34.23),
 	(2, 5, '2007-01-01 01:25:12', 90);
 	
-
 INSERT INTO AccountStock (Client, AccountNum, Stock, NumShares) VALUES
 	(444444444, 1, "GM", 250),
 	(444444444, 1, "F", 100),

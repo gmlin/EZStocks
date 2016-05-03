@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Stocks</title>
+<title>Stock History</title>
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
 <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
 
@@ -11,18 +11,12 @@
 	<c:if test="${not empty requestScope.message}">
 		<c:out value="${requestScope.message}" /><br>
 	</c:if>
-	<c:forEach items="${requestScope.stocks}" var="stock">
-		Stock: <c:out value="${stock.symbol}" />
+	Stock: <c:out value="${requestScope.stock}" /><br>
+	<c:forEach items="${requestScope.stockPrices}" var="stockPrice">
+		Date Time: <c:out value="${stockPrice.dateTime}" />
 		<br>
-		Company: <c:out value="${stock.company}" />
+		Price: <c:out value="${stockPrice.price}" />
 		<br>
-		Type: <c:out value="${stock.type}" />
-		<br>
-		Price: <c:out value="${stock.pricePerShare}" />
-		<br>
-		Number of Shares: <c:out value="${stock.numShares}" />
-		<br>
-		<a href="stockHistory?stock=${stock.symbol}">Price History</a><br>
 	</c:forEach>
 	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/jquery-2.2.3.min.js"></script>

@@ -60,6 +60,16 @@ CREATE Table Stock (
 	PRIMARY KEY (Symbol)
 );
 
+CREATE Table StockHistory (
+	Stock VARCHAR(5) NOT NULL,
+	DateTime DATETIME NOT NULL,
+	Price DOUBLE NOT NULL,
+	PRIMARY KEY (Stock, DateTime),
+	FOREIGN KEY (Stock) REFERENCES Stock (Symbol)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE
+);
+
 CREATE Table `Order` (
 	Id INTEGER NOT NULL,
 	Client INTEGER NOT NULL,

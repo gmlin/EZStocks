@@ -17,7 +17,7 @@ public class StockDAO {
 	private ResultSet rs;
 	
 	public Stock getStock(String symbol) {
-		String query = "SELECT * FROM stock WHERE symbol=" + symbol;
+		String query = "SELECT * FROM stock WHERE symbol='" + symbol + "'";
 		Stock stock = null;
 		try {
 			connection = ConnectionManager.createConnection();
