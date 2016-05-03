@@ -1,34 +1,85 @@
 package beans;
 
+import java.sql.Timestamp;
+
 public class Order {
-	private String symbol;
-	private String company;
-	private String type;
-	private double pricePerShare;
+	private int id;
+	private int client;
+	private int accountNum;
+	private String stock;
+	private int employee;
 	private int numShares;
-	public String getSymbol() {
-		return symbol;
+	private Timestamp dateTime;
+	private double pricePerShare;
+	private double percentage;
+	private String priceType;
+	private String orderType;
+	private String status;
+	public int getId() {
+		return id;
 	}
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
+	public void setId(int id) {
+		this.id = id;
 	}
-	public String getCompany() {
-		return company;
+	public int getClient() {
+		return client;
 	}
-	public void setCompany(String company) {
-		this.company = company;
+	public void setClient(int client) {
+		this.client = client;
 	}
-	public String getType() {
-		return type;
+	public int getAccountNum() {
+		return accountNum;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setAccountNum(int accountNum) {
+		this.accountNum = accountNum;
+	}
+	public String getStock() {
+		return stock;
+	}
+	public void setStock(String stock) {
+		this.stock = stock;
+	}
+	public int getEmployee() {
+		return employee;
+	}
+	public void setEmployee(int employee) {
+		this.employee = employee;
+	}
+	public Timestamp getDateTime() {
+		return dateTime;
+	}
+	public void setDateTime(Timestamp dateTime) {
+		this.dateTime = dateTime;
 	}
 	public double getPricePerShare() {
 		return pricePerShare;
 	}
 	public void setPricePerShare(double pricePerShare) {
 		this.pricePerShare = pricePerShare;
+	}
+	public double getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+	public String getPriceType() {
+		return priceType;
+	}
+	public void setPriceType(String priceType) {
+		this.priceType = priceType;
+	}
+	public String getOrderType() {
+		return orderType;
+	}
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public int getNumShares() {
 		return numShares;

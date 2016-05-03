@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EZStocks</title>
+<title>Transaction</title>
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
 <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
 
@@ -12,12 +12,15 @@
 		<c:out value="${requestScope.message}" />
 		<br>
 	</c:if>
-	<a href="profile">Profile</a><br>
-	<c:if test="${sessionScope.role eq 'Client'}">
-		<a href="accounts">Accounts</a><br>
-	</c:if>
-	<a href="stocks">Stocks</a><br>
-	<a href="logout">Logout</a>
+	<jsp:useBean id="transaction" class="beans.Transaction" scope="request" />
+	Order Id: <c:out value="${transaction.order}" />
+	<br>
+	Fee: <c:out value="${transaction.fee}" />
+	<br>
+	Price Per Share: <c:out value="${transaction.pricePerShare}" />
+	<br>
+	Date Time: <c:out value="${transaction.dateTime}" />
+	<br>
 	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/jquery-2.2.3.min.js"></script>
 </body>

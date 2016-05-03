@@ -51,14 +51,6 @@ CREATE Table Account (
 		ON UPDATE CASCADE
 );
 
-CREATE Table Transaction (
-	Id INTEGER NOT NULL,
-	Fee DOUBLE NOT NULL,
-	DateTime DATETIME NOT NULL,
-	PricePerShare DOUBLE NOT NULL,
-	PRIMARY KEY (Id)
-);
-
 CREATE Table Stock (
 	Symbol VARCHAR(5) NOT NULL,
 	Company VARCHAR(20) NOT NULL,
@@ -70,23 +62,47 @@ CREATE Table Stock (
 
 CREATE Table `Order` (
 	Id INTEGER NOT NULL,
+	Client INTEGER NOT NULL,
+	AccountNum INTEGER NOT NULL,
 	Stock VARCHAR(5) NOT NULL,
+	Employee INTEGER,
 	NumShares INTEGER NOT NULL,
 	DateTime DATETIME NOT NULL,
 	PricePerShare DOUBLE,
 	Percentage DOUBLE,
 	PriceType VARCHAR(20),
-	OrderType CHAR(1),
+	OrderType VARCHAR(4),
+	Status VARCHAR(10),
 	PRIMARY KEY (Id),
+	FOREIGN KEY (Client, AccountNum) REFERENCES Account (Client, AccountNum)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,
 	FOREIGN KEY (Stock) REFERENCES Stock (Symbol)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE,
+	FOREIGN KEY (Employee) REFERENCES Employee (Id)
 		ON DELETE NO ACTION
 		ON UPDATE CASCADE,
 	CONSTRAINT CheckPriceType
 		CHECK (PriceType IN (‘Market’, ‘MarketOnClose’, ‘TrailingStop’, ‘HiddenStop’)),
 	CONSTRAINT CheckOrderType
-		CHECK (OrderType IN (‘Buy’, ‘Sell’))
+		CHECK (OrderType IN (‘Buy’, ‘Sell’)),
+	CONSTRAINT CheckStatus
+		CHECK (Status IN ('Pending', 'Approved', 'Rejected', 'Completed'))
 );
 
+
+
+CREATE Table Transaction (
+	`Order` INTEGER NOT NULL,
+	Fee DOUBLE NOT NULL,
+	DateTime DATETIME NOT NULL,
+	PricePerShare DOUBLE NOT NULL,
+	PRIMARY KEY (`Order`),
+	FOREIGN KEY (`Order`) REFERENCES `Order` (Id)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE
+);
 
 CREATE Table AccountStock (
 	Client INTEGER NOT NULL,
@@ -95,31 +111,6 @@ CREATE Table AccountStock (
 	NumShares INTEGER NOT NULL,
 	PRIMARY KEY (Client, AccountNum, Stock),
 	FOREIGN KEY (Client, AccountNum) REFERENCES Account (Client, AccountNum)
-		ON DELETE NO ACTION
-		ON UPDATE CASCADE,
-	FOREIGN KEY (Stock) REFERENCES Stock (Symbol)
-		ON DELETE NO ACTION
-		ON UPDATE CASCADE
-);
-
-CREATE Table Trade (
-	Client INTEGER NOT NULL,
-	AccountNum INTEGER NOT NULL,
-	Employee INTEGER NOT NULL,
-	Transaction INTEGER NOT NULL,
-	`Order` INTEGER NOT NULL,
-	Stock VARCHAR(5) NOT NULL,
-	PRIMARY KEY (Client, AccountNum, Employee, Transaction, `Order`, Stock),
-	FOREIGN KEY (Client, AccountNum) REFERENCES Account (Client, AccountNum)
-		ON DELETE NO ACTION
-		ON UPDATE CASCADE,
-	FOREIGN KEY (Employee) REFERENCES Employee (Id)
-		ON DELETE NO ACTION
-		ON UPDATE CASCADE,
-	FOREIGN KEY (Transaction) REFERENCES Transaction (Id)
-		ON DELETE NO ACTION
-		ON UPDATE CASCADE,
-	FOREIGN KEY (`Order`) REFERENCES `Order` (Id)
 		ON DELETE NO ACTION
 		ON UPDATE CASCADE,
 	FOREIGN KEY (Stock) REFERENCES Stock (Symbol)

@@ -20,28 +20,23 @@ INSERT INTO Client (Id, Email, CC, Rating) VALUES
 INSERT INTO Account (Client, AccountNum, DateOpened) VALUES
 	(444444444, 1, '2006-10-01'),
 	(222222222, 1, '2006-10-15');
-
-INSERT INTO Transaction (Id, Fee, DateTime, PricePerShare) VALUES
-	(1, 5, '2007-01-01 01:15:12', 34.23),
-	(2, 5, '2007-01-01 01:25:12', 90);
  
 INSERT INTO Stock (Symbol, Company, Type, PricePerShare, NumShares) VALUES
 	("GM", "General Motors", "automotive", 34.23, 1000),
 	("IBM", "IBM", "computer", 91.41, 500),
 	("F", "Ford", "automotive", 9.0, 750);
     
-INSERT INTO `Order` (Id, Stock, NumShares, DateTime, PricePerShare,
-Percentage, PriceType, OrderType) VALUES
-	(1, "GM", 75, '2007-01-01 01:15:12', 34.23, NULL, 'Market', 'Buy'),
-	(2, "IBM", 10, '2007-01-01 01:25:12', 100, 0.1, 'TrailingStop', 'Sell');
+INSERT INTO `Order` (Id, Client, AccountNum, Stock, Employee, NumShares, 
+DateTime, PricePerShare, Percentage, PriceType, OrderType, Status) VALUES
+	(1, 444444444, 1, "GM", 123456789, 75, '2007-01-01 01:15:12', 34.23, NULL, 'Market', 'Buy', 'Completed'),
+	(2, 222222222, 1, "IBM", 123456789, 10, '2007-01-01 01:25:12', 100, 0.1, 'TrailingStop', 'Sell', 'Completed');
+
+INSERT INTO Transaction (`Order`, Fee, DateTime, PricePerShare) VALUES
+	(1, 5, '2007-01-01 01:15:12', 34.23),
+	(2, 5, '2007-01-01 01:25:12', 90);
+	
 
 INSERT INTO AccountStock (Client, AccountNum, Stock, NumShares) VALUES
 	(444444444, 1, "GM", 250),
 	(444444444, 1, "F", 100),
 	(222222222, 1, "IBM", 50);
-
-INSERT INTO Trade (Client, AccountNum, Employee, Transaction, 
-`Order`, Stock) VALUES
-	(444444444, 1, 123456789, 1, 1, "GM"),
-    (222222222, 1, 123456789, 2, 2, "IBM");
-        

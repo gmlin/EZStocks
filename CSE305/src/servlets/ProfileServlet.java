@@ -1,3 +1,4 @@
+package servlets;
 
 
 import java.io.IOException;
@@ -25,17 +26,17 @@ import dao.UserDAO;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/portfolio")
-public class PortfolioServlet extends HttpServlet {
+@WebServlet("/profile")
+public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
-	private AccountDAO accountDAO;
-	private AccountStockDAO accountStockDAO;
+	private ClientDAO clientDAO;
+	private EmployeeDAO employeeDAO;
 
 	public void init() {
 		userDAO = new UserDAO();
-		accountDAO = new AccountDAO();
-		accountStockDAO = new AccountStockDAO();
+		clientDAO = new ClientDAO();
+		employeeDAO = new EmployeeDAO();
 	}
 
 	/**
@@ -46,18 +47,17 @@ public class PortfolioServlet extends HttpServlet {
 		String username = (String) session.getAttribute("username");
 		String password = (String) session.getAttribute("password");
 		String role = (String) session.getAttribute("role");
-		int accountNum = Integer.parseInt(request.getParameter("account"));
 		User user = userDAO.getUser(username, password);
-		Account account = null;
-		if (user != null) {
-			account = accountDAO.getAccount(user.getSsn(), accountNum);
-		}
 		RequestDispatcher rd;
-		if (role.equals("Client") && account != null) {
-			List<AccountStock> accountStocks = accountStockDAO.getAccountStocks(user.getSsn(), accountNum);
-			request.setAttribute("accountStocks", accountStocks);
-			request.setAttribute("accountNum", accountNum);
-			rd = request.getRequestDispatcher("portfolio.jsp");
+		if (user != null) {
+			request.setAttribute("user", user);
+			if (role.equals("Client")) {
+				request.setAttribute("client", clientDAO.getClient(user.getSsn()));
+			}
+			else {
+				request.setAttribute("employee", employeeDAO.getEmployee(user.getSsn()));
+			}
+			rd = request.getRequestDispatcher("profile.jsp");
 		}
 		else {
 			request.setAttribute("message", "Something went wrong.");

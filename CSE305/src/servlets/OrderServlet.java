@@ -1,3 +1,4 @@
+package servlets;
 
 
 import java.io.IOException;
@@ -15,27 +16,29 @@ import beans.Account;
 import beans.AccountStock;
 import beans.Client;
 import beans.Employee;
+import beans.Order;
 import beans.User;
 import dao.AccountDAO;
 import dao.AccountStockDAO;
 import dao.ClientDAO;
 import dao.EmployeeDAO;
+import dao.OrderDAO;
 import dao.UserDAO;
 
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/profile")
-public class ProfileServlet extends HttpServlet {
+@WebServlet("/orders")
+public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
-	private ClientDAO clientDAO;
-	private EmployeeDAO employeeDAO;
+	private AccountDAO accountDAO;
+	private OrderDAO orderDAO;
 
 	public void init() {
 		userDAO = new UserDAO();
-		clientDAO = new ClientDAO();
-		employeeDAO = new EmployeeDAO();
+		accountDAO = new AccountDAO();
+		orderDAO = new OrderDAO();
 	}
 
 	/**
@@ -46,17 +49,18 @@ public class ProfileServlet extends HttpServlet {
 		String username = (String) session.getAttribute("username");
 		String password = (String) session.getAttribute("password");
 		String role = (String) session.getAttribute("role");
+		int accountNum = Integer.parseInt(request.getParameter("account"));
 		User user = userDAO.getUser(username, password);
-		RequestDispatcher rd;
+		Account account = null;
 		if (user != null) {
-			request.setAttribute("user", user);
-			if (role.equals("Client")) {
-				request.setAttribute("client", clientDAO.getClient(user.getSsn()));
-			}
-			else {
-				request.setAttribute("employee", employeeDAO.getEmployee(user.getSsn()));
-			}
-			rd = request.getRequestDispatcher("profile.jsp");
+			account = accountDAO.getAccount(user.getSsn(), accountNum);
+		}
+		RequestDispatcher rd;
+		if (role.equals("Client") && account != null) {
+			List<Order> orders = orderDAO.getOrders(user.getSsn(), accountNum);
+			request.setAttribute("orders", orders);
+			request.setAttribute("accountNum", accountNum);
+			rd = request.getRequestDispatcher("orders.jsp");
 		}
 		else {
 			request.setAttribute("message", "Something went wrong.");
