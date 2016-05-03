@@ -2,6 +2,8 @@ package beans;
 
 import java.sql.Timestamp;
 
+import dao.UserDAO;
+
 public class Order {
 	private int id;
 	private int client;
@@ -87,5 +89,12 @@ public class Order {
 	public void setNumShares(int numShares) {
 		this.numShares = numShares;
 	}
-	
+	public String getEmployeeName() {
+		if (status.equals("Pending")) {
+			return "N/A";
+		}
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(employee);
+		return user.getFirstName() + " " + user.getLastName();
+	}
 }

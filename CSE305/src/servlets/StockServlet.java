@@ -46,11 +46,29 @@ public class StockServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
 		String password = (String) session.getAttribute("password");
+		String role = (String) session.getAttribute("role");
+		String type = (String) request.getParameter("type");
+		String keyword = (String) request.getParameter("keyword");
 		User user = userDAO.getUser(username, password);
 		RequestDispatcher rd;
 		if (user != null) {
-			List<Stock> stocks = stockDAO.getStocks();
+			List<Stock> stocks; 
+			if (type != null) {
+				stocks = stockDAO.getTypeStocks(type);
+			}
+			else if (keyword != null) {
+				stocks = stockDAO.getKeywordStocks(keyword);
+			}
+			else {
+				stocks = stockDAO.getStocks();
+			}
+			List<Stock> bestSellers = stockDAO.getBestSellers();
+			if (role.equals("Client")) {
+				List<Stock> recommendations = stockDAO.getRecommendations(user.getSsn());
+				request.setAttribute("recommendations", recommendations);
+			}
 			request.setAttribute("stocks", stocks);
+			request.setAttribute("bestSellers", bestSellers);
 			rd = request.getRequestDispatcher("stocks.jsp");
 		}
 		else {

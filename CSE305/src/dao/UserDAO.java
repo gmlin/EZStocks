@@ -47,4 +47,40 @@ public class UserDAO {
 		}
 		return user;
 	}
+	
+	public User getUser(int ssn) {
+		String query = "SELECT * FROM user WHERE ssn=" + ssn;
+		User user = null;
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if (rs.next()) {
+				user = new User();
+				user.setUsername(rs.getString("Username"));
+				user.setPassword(rs.getString("Password"));
+				user.setSsn(ssn);
+				user.setLastName(rs.getString("LastName"));
+				user.setFirstName(rs.getString("FirstName"));
+				user.setAddress(rs.getString("Address"));
+				user.setCity(rs.getString("City"));
+				user.setState(rs.getString("State"));
+				user.setZipCode(rs.getInt("ZipCode"));
+				user.setPhoneNumber(rs.getLong("PhoneNumber"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
+	}
+	
 }

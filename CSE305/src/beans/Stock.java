@@ -1,5 +1,7 @@
 package beans;
 
+import dao.StockDAO;
+
 public class Stock {
 	private String symbol;
 	private String company;
@@ -36,5 +38,8 @@ public class Stock {
 	public void setNumShares(int numShares) {
 		this.numShares = numShares;
 	}
-	
+	public int getNumSold() {
+		StockDAO stockDAO = new StockDAO();
+		return stockDAO.getNumSold(symbol);
+	}
 }
