@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EZStocks</title>
+<title>Clients</title>
 <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
 <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
 
@@ -17,16 +17,6 @@
 				<c:if test="${sessionScope.role eq 'Client'}">
 					<li><a href="accounts">Accounts</a></li>
 				</c:if>
-				<c:if test="${sessionScope.role ne 'Client'}">
-				<li><a href="clients">Clients</a></li>
-				<li><a href="mailing_list">Mailing List</a></li>
-				<li><a href="pending_orders">Pending Orders</a></li>
-				</c:if>
-				<c:if test="${sessionScope.role eq 'Manager'}">
-				<li><a href="employees">Employees</a></li>
-				<li><a href="manager_orders">Orders</a></li>
-				<li><a href="stats">Stats</a></li>
-				</c:if>
 				<li><a href="stocks">Stocks</a></li>
 				<li><a href="logout">Logout</a></li>
 			</ul>
@@ -38,7 +28,35 @@
 				<c:out value="${requestScope.message}" />
 			</div>
 		</c:if>
-		<h1>Hello <c:out value="${sessionScope.username}" /></h1>
+		<h3>Clients</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Credit Card</th>
+					<th>Rating</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${requestScope.clients}" var="client">
+					<tr>
+						<td><c:out value="${client.id}" /></td>
+						<td><c:out value="${client.name}" /></td>
+						<td><c:out value="${client.email}" /></td>
+						<td><c:out value="${client.creditCard}" /></td>
+						<td><c:out value="${client.rating}" /></td>
+						<td><a href="suggestions?client=${client.id}">Suggestions</a></td>
+						<td><a href="portfolio?account=">Portfolio</a></td>
+						<td><a href="orders?account=">Orders</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
 	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/jquery-2.2.3.min.js"></script>

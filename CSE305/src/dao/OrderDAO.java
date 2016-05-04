@@ -128,5 +128,65 @@ public class OrderDAO {
 		}
 		return true;
 	}
+
+	public List<Order> getPendingOrders() {
+		String query = "SELECT * FROM `Order` WHERE status='Pending'";
+		List<Order> orders = new ArrayList<Order>();
+		Order order;
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			while (rs.next()) {
+				order = new Order();
+				order.setId(rs.getInt("id"));
+				order.setClient(rs.getInt("client"));
+				order.setAccountNum(rs.getInt("accountNum"));
+				order.setStock(rs.getString("Stock"));
+				order.setEmployee(rs.getInt("Employee"));
+				order.setNumShares(rs.getInt("NumShares"));
+				order.setDateTime(rs.getTimestamp("DateTime"));
+				order.setPricePerShare(rs.getDouble("PricePerShare"));
+				order.setPercentage(rs.getDouble("Percentage"));
+				order.setPriceType(rs.getString("PriceType"));
+				order.setOrderType(rs.getString("OrderType"));
+				order.setStatus(rs.getString("Status"));
+				orders.add(order);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return orders;
+	}
+
+	public void setStatus(int employee, String orderId, String status) {
+		String query = "UPDATE `order` SET " + "status='" + status + "', employee=" + employee
+				+ " WHERE id=" + orderId;
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 }

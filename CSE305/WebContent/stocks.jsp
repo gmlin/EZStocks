@@ -32,6 +32,7 @@
 			<c:out value="${requestScope.message}" />
 			<br>
 		</c:if>
+		<c:if test="${sessionScope.role eq 'Client'}">
 		<div class="row">
 			<div class="col-sm-6">
 				<h3>Best sellers</h3>
@@ -56,7 +57,7 @@
 				</div>
 			</c:if>
 		</div>
-
+		</c:if>
 		<div class="row">
 			<div class="col-sm-6">
 				<h3>Search by type</h3>

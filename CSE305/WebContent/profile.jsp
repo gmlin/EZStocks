@@ -32,8 +32,6 @@
 		<ul class="list-group">
 			<li class="list-group-item">Username: <c:out value="${user.username}" />
 			</li>
-			<li class="list-group-item">Password: <c:out value="${user.password}" />
-			</li>
 			<li class="list-group-item">SSN: <c:out value="${user.ssn}" />
 			</li>
 			<li class="list-group-item">Last Name: <c:out value="${user.lastName}" />

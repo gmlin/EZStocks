@@ -178,7 +178,7 @@ public class StockDAO {
 	}
 	
 	public List<Stock> getRecommendations(int client) {
-		String query = "SELECT stockA.* FROM Stock stockA INNER JOIN Stock stockB INNER JOIN `Order` "
+		String query = "SELECT DISTINCT stockA.* FROM Stock stockA INNER JOIN Stock stockB INNER JOIN `Order` "
 				+ "ON stockA.type = stockB.type AND stockB.symbol = `Order`.stock "
 				+ "WHERE `Order`.client=" + client + " LIMIT 5";
 		List<Stock> stocks = new ArrayList<Stock>();

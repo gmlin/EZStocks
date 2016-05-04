@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EZStocks</title>
+<title>Mailing List</title>
 <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
 <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
 
@@ -17,16 +17,6 @@
 				<c:if test="${sessionScope.role eq 'Client'}">
 					<li><a href="accounts">Accounts</a></li>
 				</c:if>
-				<c:if test="${sessionScope.role ne 'Client'}">
-				<li><a href="clients">Clients</a></li>
-				<li><a href="mailing_list">Mailing List</a></li>
-				<li><a href="pending_orders">Pending Orders</a></li>
-				</c:if>
-				<c:if test="${sessionScope.role eq 'Manager'}">
-				<li><a href="employees">Employees</a></li>
-				<li><a href="manager_orders">Orders</a></li>
-				<li><a href="stats">Stats</a></li>
-				</c:if>
 				<li><a href="stocks">Stocks</a></li>
 				<li><a href="logout">Logout</a></li>
 			</ul>
@@ -38,7 +28,13 @@
 				<c:out value="${requestScope.message}" />
 			</div>
 		</c:if>
-		<h1>Hello <c:out value="${sessionScope.username}" /></h1>
+		<h3>Mailing List</h3>
+		<ul class="list-group">
+			<c:forEach items="${requestScope.clients}" var="client">
+			<li class="list-group-item"><c:out value="${client.email}" />
+			</li>
+			</c:forEach>
+		</ul>
 	</div>
 	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/jquery-2.2.3.min.js"></script>

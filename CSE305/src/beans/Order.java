@@ -97,4 +97,9 @@ public class Order {
 		User user = userDAO.getUser(employee);
 		return user.getFirstName() + " " + user.getLastName();
 	}
+	public String getClientName() {
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(client);
+		return user.getFirstName() + " " + user.getLastName();
+	}
 }

@@ -1,5 +1,7 @@
 package beans;
 
+import dao.UserDAO;
+
 public class Client {
 	private int id;
 	private String email;
@@ -29,5 +31,10 @@ public class Client {
 	}
 	public void setRating(int rating) {
 		this.rating = rating;
+	}
+	public String getName() {
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(id);
+		return user.getFirstName() + " " + user.getLastName();
 	}
 }
