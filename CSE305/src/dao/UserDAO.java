@@ -82,5 +82,25 @@ public class UserDAO {
 		}
 		return user;
 	}
+
+	public void addUser(Connection conn, String username, String password, int ssn, String last, String first, String address,
+			String city, String state, int zip, long phone) {
+		String query = "INSERT INTO User (Username, Password, SSN, LastName, FirstName, Address, City, State, ZipCode, PhoneNumber) VALUES ('"
+				+ username +"','" + password +"'," + ssn + ",'" + last + "','" + first + "','" + address + "','" + city + "','" + state + "'," + zip + "," + phone + ")";
+		try {
+			statement = conn.createStatement();
+			statement.executeUpdate(query);
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+	}
 	
 }

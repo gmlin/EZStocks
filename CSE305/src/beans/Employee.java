@@ -2,6 +2,8 @@ package beans;
 
 import java.sql.Date;
 
+import dao.UserDAO;
+
 public class Employee {
 	private int id;
 	private Date startDate;
@@ -31,5 +33,15 @@ public class Employee {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getName() {
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(id);
+		return user.getFirstName() + " " + user.getLastName();
+	}
+	public String getUsername() {
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(id);
+		return user.getUsername();
 	}
 }

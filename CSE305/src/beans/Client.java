@@ -37,4 +37,9 @@ public class Client {
 		User user = userDAO.getUser(id);
 		return user.getFirstName() + " " + user.getLastName();
 	}
+	public String getUsername() {
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(id);
+		return user.getUsername();
+	}
 }

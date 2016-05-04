@@ -74,4 +74,31 @@ public class ClientDAO {
 		}
 		return clients;
 	}
+
+	public boolean addClient(String username, String password, int ssn, String first, String last,
+			String address, String city, String state, int zip, long phone, String email, long cc) {
+		String query = "INSERT INTO Client (Id, Email, Rating, CC) VALUES ("
+				+ ssn + ",'" + email + "'," + 1 + "," + cc + ")";
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			UserDAO userDAO = new UserDAO();
+			userDAO.addUser(connection, username, password, ssn, last, first, address, city, state, zip, phone);
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			connection.commit();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return false;
+		}
+		return true;
+	}
 }

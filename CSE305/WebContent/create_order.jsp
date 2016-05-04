@@ -9,6 +9,28 @@
 <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
 </head>
 <body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<ul class="nav navbar-nav navbar-left">
+				<li><a href="profile">Profile</a></li>
+				<c:if test="${sessionScope.role eq 'Client'}">
+					<li><a href="accounts">Accounts</a></li>
+				</c:if>
+				<c:if test="${sessionScope.role ne 'Client'}">
+				<li><a href="clients">Clients</a></li>
+				<li><a href="mailing_list">Mailing List</a></li>
+				<li><a href="pending_orders">Pending Orders</a></li>
+				</c:if>
+				<c:if test="${sessionScope.role eq 'Manager'}">
+				<li><a href="employees">Employees</a></li>
+				<li><a href="manager_orders">Orders</a></li>
+				<li><a href="stats">Stats</a></li>
+				</c:if>
+				<li><a href="stocks">Stocks</a></li>
+				<li><a href="logout">Logout</a></li>
+			</ul>
+		</div>
+	</nav>
 	<div class="container">
 		<c:if test="${not empty requestScope.message}">
 			<div class="row">
