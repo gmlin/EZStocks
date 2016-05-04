@@ -38,14 +38,18 @@
 				<tr>
 					<th>Stock</th>
 					<th>Num Shares</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${requestScope.accountStocks}" var="accountStock">
 
 					<tr>
-						<td><c:out value="${accountStock.stock}" /></td>
+						<td><a href="stocks?stock=${accountStock.stock}"><c:out
+									value="${accountStock.stock}" /></a></td>
 						<td><c:out value="${accountStock.numShares}" /></td>
+						<td><a
+							href="create_order?account=${requestScope.accountNum}&type=sell&stock=${accountStock.stock}">Sell</a></td>
 					</tr>
 
 				</c:forEach>

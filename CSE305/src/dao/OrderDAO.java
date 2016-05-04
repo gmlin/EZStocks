@@ -94,4 +94,39 @@ public class OrderDAO {
 		return order;
 	}
 	
+	public boolean createOrder(int client, int account, String stock, int numShares, Double hiddenPrice, Double trailing, String priceType, String type) {
+		Double price = hiddenPrice;
+		String t;
+		if (type.equals("buy")) {
+			t = "Buy";
+		}
+		else t = "Sell";
+		if (priceType.equals("Market") || type.equals("MarketOnClose")) {
+			StockDAO stockDAO = new StockDAO();
+			price = stockDAO.getStock(stock).getPricePerShare();
+		}
+		String query = "INSERT INTO `Order` (Client, AccountNum, Stock, Employee, NumShares, "
+				+ "DateTime, PricePerShare, Percentage, PriceType, OrderType, Status) VALUES ("
+				+ client + ", " + account + ", '" + stock + "', NULL, " + numShares + ", "
+						+ "now(), " + price + ", " + trailing + ", '" + priceType + "', '" + t + "', 'Pending')"; 
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
+	
 }

@@ -85,6 +85,8 @@
 					<th>Type</th>
 					<th>Price</th>
 					<th>Num Shares</th>
+					<c:if test="${sessionScope.role eq 'Client'}">
+					<th></th></c:if>
 					<th></th>
 				</tr>
 			</thead>
@@ -97,6 +99,8 @@
 						<td><c:out value="${stock.type}" /></td>
 						<td><c:out value="${stock.pricePerShare}" /></td>
 						<td><c:out value="${stock.numShares}" /></td>
+						<c:if test="${sessionScope.role eq 'Client'}">
+						<td><a href="create_order?type=buy&stock=${stock.symbol}">Buy</a></td></c:if>
 						<td><a href="stockHistory?stock=${stock.symbol}">Price
 								History</a></td>
 					</tr>

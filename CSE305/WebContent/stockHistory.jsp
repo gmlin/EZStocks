@@ -36,6 +36,12 @@
 			<c:out value="${requestScope.stock}" />
 			Price History
 		</h3>
+		<form action="stockHistory" method="GET">
+			<input type="hidden" name="stock" id="stock" value="${requestScope.stock}" />
+			<label for="start">Show prices since: </label>
+			<input type="datetime-local" name="start" id="start" value="${param.start}" />
+			<button type="submit" class="btn btn-default">Set</button>
+		</form>
 		<table class="table">
 			<thead>
 				<tr>
@@ -45,7 +51,6 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${requestScope.stockPrices}" var="stockPrice">
-
 					<tr>
 						<td><c:out value="${stockPrice.dateTime}" /></td>
 						<td><c:out value="${stockPrice.price}" /></td>

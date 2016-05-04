@@ -2,6 +2,7 @@ package servlets;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -49,11 +50,16 @@ public class StockServlet extends HttpServlet {
 		String role = (String) session.getAttribute("role");
 		String type = (String) request.getParameter("type");
 		String keyword = (String) request.getParameter("keyword");
+		String stock = (String) request.getParameter("stock");
 		User user = userDAO.getUser(username, password);
 		RequestDispatcher rd;
 		if (user != null) {
 			List<Stock> stocks; 
-			if (type != null) {
+			if (stock != null) {
+				stocks = new ArrayList<Stock>();
+				stocks.add(stockDAO.getStock(stock));
+			}
+			else if (type != null) {
 				stocks = stockDAO.getTypeStocks(type);
 			}
 			else if (keyword != null) {

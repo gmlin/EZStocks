@@ -2,6 +2,7 @@ package servlets;
 
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -51,6 +52,7 @@ public class StockPriceServlet extends HttpServlet {
 		String username = (String) session.getAttribute("username");
 		String password = (String) session.getAttribute("password");
 		String symbol = (String) request.getParameter("stock");
+		String start = (String) request.getParameter("start");
 		User user = userDAO.getUser(username, password);
 		RequestDispatcher rd;
 		Stock stock = null;
@@ -58,7 +60,15 @@ public class StockPriceServlet extends HttpServlet {
 			stock = stockDAO.getStock(symbol);
 		}
 		if (stock != null) {
-			List<StockPrice> stockPrices = stockPriceDAO.getStockPrices(symbol);
+			List<StockPrice> stockPrices;
+			if (start != null) {
+				start = start.replace("T", " ") + ":00";
+				Timestamp startDateTime = Timestamp.valueOf(start);
+				stockPrices = stockPriceDAO.getStockPrices(symbol, startDateTime);
+			}
+			else {
+				stockPrices = stockPriceDAO.getStockPrices(symbol);
+			}
 			request.setAttribute("stockPrices", stockPrices);
 			request.setAttribute("stock", symbol);
 			rd = request.getRequestDispatcher("stockHistory.jsp");

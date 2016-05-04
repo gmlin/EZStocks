@@ -32,7 +32,7 @@ INSERT INTO Stock (Symbol, Company, Type, PricePerShare, NumShares) VALUES
 INSERT INTO StockHistory (Stock, DateTime, Price) VALUES
 	("GM", '2007-01-01 01:15:12', 34.23),
 	("IBM", '2007-01-01 01:25:12', 91.41),
-	("F", '2007-01-01 01:21:12', 9.0);
+	("F", '2007-01-01 01:21:12', 9.0),
 	("MSFT", '2007-01-01 01:15:12', 146.3),
 	("AAPL", '2007-01-01 01:25:12', 112.23),
 	("GS", '2007-01-01 01:21:12', 123);
