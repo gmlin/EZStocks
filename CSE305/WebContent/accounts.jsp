@@ -40,6 +40,7 @@
 			</div>
 		</c:if>
 		<h3>My Accounts</h3>
+		<a href="open_acct">Open new account</a>
 		<table class="table">
 			<thead>
 				<tr>

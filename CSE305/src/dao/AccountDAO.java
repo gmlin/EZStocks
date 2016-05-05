@@ -74,4 +74,26 @@ public class AccountDAO {
 		}
 		return account;
 	}
+
+	public void addAccount(int id, int accNum) {
+		String query = "INSERT INTO Account (Client, AccountNum, DateOpened) VALUES ("
+				+ id + ", " + (accNum + 1) + ", NOW())";
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			connection.commit();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
 }

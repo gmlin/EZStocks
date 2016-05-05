@@ -1,5 +1,8 @@
 package beans;
 
+import java.util.List;
+
+import dao.AccountDAO;
 import dao.ClientDAO;
 import dao.UserDAO;
 
@@ -56,5 +59,10 @@ public class Client {
 	public double getRevenue() {
 		ClientDAO clientDAO= new ClientDAO();
 		return clientDAO.getClientRevenue(getFirstName(), getLastName());
+	}
+	public int getNumAcc() {
+		AccountDAO accDAO = new AccountDAO();
+		List <Account> accs = accDAO.getAccounts(id);
+		return accs.size();
 	}
 }
