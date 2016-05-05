@@ -28,7 +28,7 @@ import dao.UserDAO;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/orders")
+@WebServlet(urlPatterns = {"/orders", "/manager_orders"})
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
@@ -49,10 +49,14 @@ public class OrderServlet extends HttpServlet {
 		String username = (String) session.getAttribute("username");
 		String password = (String) session.getAttribute("password");
 		String role = (String) session.getAttribute("role");
-		int accountNum = Integer.parseInt(request.getParameter("account"));
+		String stock = (String) request.getParameter("stock");
+		String first = (String) request.getParameter("first");
+		String last = (String) request.getParameter("last");
 		User user = userDAO.getUser(username, password);
 		Account account = null;
-		if (user != null) {
+		int accountNum = 0;
+		if (user != null && role.equals("Client")) {
+			accountNum = Integer.parseInt(request.getParameter("account"));
 			account = accountDAO.getAccount(user.getSsn(), accountNum);
 		}
 		RequestDispatcher rd;
@@ -60,6 +64,20 @@ public class OrderServlet extends HttpServlet {
 			List<Order> orders = orderDAO.getOrders(user.getSsn(), accountNum);
 			request.setAttribute("orders", orders);
 			request.setAttribute("accountNum", accountNum);
+			rd = request.getRequestDispatcher("orders.jsp");
+		}
+		else if (role.equals("Manager")) {
+			List<Order> orders;
+			if (stock != null) {
+				orders = orderDAO.getStockOrders(stock);
+			}
+			else if (first != null) {
+				orders = orderDAO.getClientOrders(first, last);
+			}
+			else {
+				orders = orderDAO.getOrders();
+			}
+			request.setAttribute("orders", orders);
 			rd = request.getRequestDispatcher("orders.jsp");
 		}
 		else {

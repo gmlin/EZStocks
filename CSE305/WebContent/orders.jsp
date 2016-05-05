@@ -19,11 +19,11 @@
 				</c:if>
 				<c:if test="${sessionScope.role ne 'Client'}">
 				<li><a href="clients">Clients</a></li>
+				<li><a href="employees">Employees</a></li>
 				<li><a href="mailing_list">Mailing List</a></li>
 				<li><a href="pending_orders">Pending Orders</a></li>
 				</c:if>
 				<c:if test="${sessionScope.role eq 'Manager'}">
-				<li><a href="employees">Employees</a></li>
 				<li><a href="manager_orders">Orders</a></li>
 				<li><a href="stats">Stats</a></li>
 				</c:if>
@@ -38,15 +38,40 @@
 				<c:out value="${requestScope.message}" />
 			</div>
 		</c:if>
+		<c:if test="${sessionScope.role eq 'Manager'}">
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>Search by Stock Symbol</h3>
+				<form action="manager_orders" method="GET">
+					<label for="stock">Stock Symbol: </label> <input type="text" id="stock"
+						name="stock" />
+					<button type="submit" class="btn btn-default">Search</button>
+				</form>
+			</div>
+			<div class="col-sm-6">
+				<h3>Search by Client Name</h3>
+				<form action="manager_orders" method="GET">
+					<label for="first">First Name: </label> <input type="text"
+						id="first" name="first" />
+					<label for="last">Last Name: </label> <input type="text"
+						id="last" name="last" />
+					<button type="submit" class="btn btn-default">Search</button>
+				</form>
+			</div>
+		</div>
+		</c:if>
 		<h3>
-			Account
-			<c:out value="${requestScope.accountNum}" />
 			Orders
 		</h3>
 		<table class="table">
 			<thead>
 				<tr>
+					<c:if test="${sessionScope.role eq 'Manager'}">
+						<th>Client Id</th>
+						<th>Account Num</th>
+					</c:if>
 					<th>Order Id</th>
+					<th>Client</th>
 					<th>Broker</th>
 					<th>Stock</th>
 					<th>Price</th>
@@ -62,7 +87,12 @@
 
 				<c:forEach items="${requestScope.orders}" var="order">
 					<tr>
+						<c:if test="${sessionScope.role eq 'Manager'}">
+						<td><c:out value="${order.client}" /></td>
+						<td><c:out value="${order.accountNum}" /></td>
+						</c:if>
 						<td><c:out value="${order.id}" /></td>
+						<td><c:out value="${order.clientName}" /></td>
 						<td><c:out value="${order.employeeName}" /></td>
 						<td><c:out value="${order.stock}" /></td>
 						<td><c:out value="${order.pricePerShare}" /></td>

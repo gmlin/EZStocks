@@ -46,5 +46,31 @@ public class TransactionDAO {
 		}
 		return transaction;
 	}
+
+	public double getProfits(int month, int year) {
+		String query = "SELECT SUM(Fee) FROM Transaction WHERE MONTH(DateTime)=" +
+				month + " AND YEAR(DateTime)=" + year;
+		double profit = 0;
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if (rs.next()) {
+				profit = rs.getDouble(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return profit;
+	}
 	
 }

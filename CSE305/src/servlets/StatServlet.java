@@ -29,15 +29,19 @@ import dao.UserDAO;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/employees")
-public class EmployeeServlet extends HttpServlet {
+@WebServlet("/stats")
+public class StatServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
+	private StockDAO stockDAO;
 	private EmployeeDAO employeeDAO;
+	private ClientDAO clientDAO;
 
 	public void init() {
 		userDAO = new UserDAO();
+		stockDAO = new StockDAO();
 		employeeDAO = new EmployeeDAO();
+		clientDAO = new ClientDAO();
 	}
 
 	/**
@@ -50,10 +54,14 @@ public class EmployeeServlet extends HttpServlet {
 		String role = (String) session.getAttribute("role");
 		User user = userDAO.getUser(username, password);
 		RequestDispatcher rd;
-		if (user != null && !role.equals("Client")) {
-			List<Employee> employees = employeeDAO.getEmployees();
-			request.setAttribute("employees", employees);
-			rd = request.getRequestDispatcher("employees.jsp");
+		if (user != null && role.equals("Manager")) {
+			Employee topBroker = employeeDAO.getTopBroker();
+			Client topCustomer = clientDAO.getTopCustomer();
+			List<Stock> bestSellers = stockDAO.getMostTraded();
+			request.setAttribute("broker", topBroker);
+			request.setAttribute("customer", topCustomer);
+			request.setAttribute("bestSellers", bestSellers);
+			rd = request.getRequestDispatcher("stats.jsp");
 		}
 		else {
 			request.setAttribute("message", "Something went wrong.");

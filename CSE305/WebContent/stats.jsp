@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Transaction</title>
+<title>Stats</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
@@ -42,19 +42,52 @@
 			<c:out value="${requestScope.message}" />
 			<br>
 		</c:if>
-		<h3>Transaction Details</h3>
-		<jsp:useBean id="transaction" class="beans.Transaction"
-			scope="request" />
-		<ul class="list-group">
-			<li class="list-group-item">Order Id: <c:out
-					value="${transaction.order}" /></li>
-			<li class="list-group-item">Fee: <c:out
-					value="${transaction.fee}" /></li>
-			<li class="list-group-item">Price Per Share: <c:out
-					value="${transaction.pricePerShare}" /></li>
-			<li class="list-group-item">Date Time: <c:out
-					value="${transaction.dateTime}" /></li>
-		</ul>
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>Sales report</h3>
+				<form action="sales" method="get">
+					<label for="month">Month: </label> <input type="number"
+						name="month" id="month" /> <label for="year">Year: </label> <input
+						type="number" name="year" id="year" />
+					<button type="submit" class="btn btn-default">View Report</button>
+				</form>
+			</div>
+			<div class="col-sm-6">
+				<h3>Revenue summary</h3>
+				<ul class="list-group">
+					<li class="list-group-item"><c:out
+							value="${requestScope.revenue}" /></li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>Top Broker</h3>
+				<ul class="list-group">
+					<li class="list-group-item"><c:out
+							value="${requestScope.broker.name}" />
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<h3>Top Customer</h3>
+				<ul class="list-group">
+					<li class="list-group-item"><c:out
+							value="${requestScope.customer.name}" />
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>Top stocks</h3>
+				<ul class="list-group">
+					<c:forEach items="${requestScope.bestSellers}" var="bestSeller">
+						<li class="list-group-item"><c:out
+								value="${bestSeller.symbol}" /> - <c:out
+								value="${bestSeller.numShares}" /> traded</li>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>
 	</div>
 	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/jquery-2.2.3.min.js"></script>

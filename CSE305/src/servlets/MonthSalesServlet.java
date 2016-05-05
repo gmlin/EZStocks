@@ -24,20 +24,23 @@ import dao.AccountStockDAO;
 import dao.ClientDAO;
 import dao.EmployeeDAO;
 import dao.StockDAO;
+import dao.TransactionDAO;
 import dao.UserDAO;
 
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/employees")
-public class EmployeeServlet extends HttpServlet {
+@WebServlet("/sales")
+public class MonthSalesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
-	private EmployeeDAO employeeDAO;
+	private StockDAO stockDAO;
+	private TransactionDAO transactionDAO;
 
 	public void init() {
 		userDAO = new UserDAO();
-		employeeDAO = new EmployeeDAO();
+		stockDAO = new StockDAO();
+		transactionDAO = new TransactionDAO();
 	}
 
 	/**
@@ -50,10 +53,12 @@ public class EmployeeServlet extends HttpServlet {
 		String role = (String) session.getAttribute("role");
 		User user = userDAO.getUser(username, password);
 		RequestDispatcher rd;
-		if (user != null && !role.equals("Client")) {
-			List<Employee> employees = employeeDAO.getEmployees();
-			request.setAttribute("employees", employees);
-			rd = request.getRequestDispatcher("employees.jsp");
+		int month = Integer.parseInt(request.getParameter("month"));
+		int year = Integer.parseInt(request.getParameter("year"));
+		if (role.equals("Manager")) {
+			request.setAttribute("month", month + " " + year);
+			request.setAttribute("profit", transactionDAO.getProfits(month, year));
+			rd = request.getRequestDispatcher("salesreport.jsp");
 		}
 		else {
 			request.setAttribute("message", "Something went wrong.");

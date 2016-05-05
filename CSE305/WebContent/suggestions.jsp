@@ -19,11 +19,11 @@
 				</c:if>
 				<c:if test="${sessionScope.role ne 'Client'}">
 				<li><a href="clients">Clients</a></li>
+				<li><a href="employees">Employees</a></li>
 				<li><a href="mailing_list">Mailing List</a></li>
 				<li><a href="pending_orders">Pending Orders</a></li>
 				</c:if>
 				<c:if test="${sessionScope.role eq 'Manager'}">
-				<li><a href="employees">Employees</a></li>
 				<li><a href="manager_orders">Orders</a></li>
 				<li><a href="stats">Stats</a></li>
 				</c:if>

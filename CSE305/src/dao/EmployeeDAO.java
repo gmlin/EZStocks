@@ -102,4 +102,36 @@ public class EmployeeDAO {
 		}
 		return true;
 	}
+
+	public Employee getTopBroker() {
+		String query = "SELECT Employee.* FROM Employee "
+				+ "INNER JOIN `Order` INNER JOIN Transaction "
+				+ "ON `Order`.employee=Employee.Id AND `Order`.Id=Transaction.`Order` " 
+				+ "GROUP BY Employee.Id ORDER BY SUM(Fee) DESC LIMIT 1";
+		Employee employee = null;
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if (rs.next()) {
+				employee = new Employee();
+				employee.setId(rs.getInt("Id"));
+				employee.setStartDate(rs.getDate("StartDate"));
+				employee.setHourlyRate(rs.getDouble("HourlyRate"));
+				employee.setType(rs.getString("Type"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return employee;
+	}
 }

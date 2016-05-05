@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Mailing List</title>
+<title>Sales Report</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
@@ -38,12 +38,10 @@
 				<c:out value="${requestScope.message}" />
 			</div>
 		</c:if>
-		<h3>Mailing List</h3>
+		<h3><c:out value="${requestScope.month}"/> Sales</h3>
 		<ul class="list-group">
-			<c:forEach items="${requestScope.clients}" var="client">
-			<li class="list-group-item"><c:out value="${client.email}" />
+			<li class="list-group-item">Total Profit: <c:out value="${requestScope.profit}" />
 			</li>
-			</c:forEach>
 		</ul>
 	</div>
 	<script src="static/js/bootstrap.min.js"></script>
