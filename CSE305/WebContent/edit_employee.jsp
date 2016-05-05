@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Employees</title>
+<title>Edit Employee</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
@@ -42,35 +42,36 @@
 		<c:if test="${sessionScope.role eq 'Manager'}">
 			<div class="row">
 				<div class="col-sm-6">
-					<h3>Add new employee</h3>
+					<h3>Edit employee</h3>
 					<form action="add_employee" method="post">
+						<input type="hidden" name="id" value="${param.id}"/>
 						<div class="form-group">
 							<label for="username">Username: </label> <input type="text"
-								name="username" id="username" />
+								name="username" id="username" value="${requestScope.user.username}"/>
 						</div>
 						<div class="form-group">
 							<label for="password">Password: </label> <input type="password"
-								name="password" id="password" />
+								name="password" id="password" value="${requestScope.user.password}"/>
 						</div>
 						<div class="form-group">
 							<label for="ssn">SSN: </label> <input type="number" name="ssn"
-								id="ssn" />
+								id="ssn" value="${requestScope.user.ssn}"/>
 						</div>
 						<div class="form-group">
 							<label for="first">First Name: </label> <input type="text"
-								name="first" id="first" />
+								name="first" id="first" value="${requestScope.user.firstName}"/>
 						</div>
 						<div class="form-group">
 							<label for="last">Last Name: </label> <input type="text"
-								name="last" id="last" />
+								name="last" id="last" value="${requestScope.user.lastName}"/>
 						</div>
 						<div class="form-group">
 							<label for="address">Address: </label> <input type="text"
-								name="address" id="address" />
+								name="address" id="address" value="${requestScope.user.address}"/>
 						</div>
 						<div class="form-group">
 							<label for="city">City: </label> <input type="text" name="city"
-								id="city" />
+								id="city" value="${requestScope.user.city}"/>
 						</div>
 						<div class="form-group">
 							<label for="state">State: </label> <select name="state"
@@ -130,15 +131,15 @@
 						</div>
 						<div class="form-group">
 							<label for="zip">Zip: </label> <input type="number" name="zip"
-								id="zip" />
+								id="zip" value="${requestScope.user.zipCode}"/>
 						</div>
 						<div class="form-group">
 							<label for="phone">Phone: </label> <input type="number"
-								name="phone" id="phone" />
+								name="phone" id="phone" value="${requestScope.user.phoneNumber}"/>
 						</div>
 						<div class="form-group">
 							<label for="rate">Hourly Rate: </label> <input type="number"
-								name="rate" id="rate" />
+								name="rate" id="rate" value="${requestScope.employee.hourlyRate}"/>
 						</div>
 						<div class="form-group">
 							<label for="role">Role: </label> <select name="role" id="role">
@@ -146,51 +147,11 @@
 								<option value="Manager">Manager</option>
 							</select>
 						</div>
-						<button type="submit" class="btn btn-default">Add</button>
+						<button type="submit" class="btn btn-default">Change</button>
 					</form>
 				</div>
 			</div>
 		</c:if>
-		<div class="row">
-			<h3>Employees</h3>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Username</th>
-						<th>Id</th>
-						<th>Name</th>
-						<th>Start Date</th>
-						<c:if test="${sessionScope.role eq 'Manager'}">
-							<th>Hourly Rate</th>
-						</c:if>
-						<th>Role</th>
-						<c:if test="${sessionScope.role eq 'Manager'}">
-							<th></th>
-							<th></th>
-						</c:if>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${requestScope.employees}" var="employee">
-						<tr>
-							<td><c:out value="${employee.username}" /></td>
-							<td><c:out value="${employee.id}" /></td>
-							<td><c:out value="${employee.name}" /></td>
-							<td><c:out value="${employee.startDate}" /></td>
-							<c:if test="${sessionScope.role eq 'Manager'}">
-								<td><c:out value="${employee.hourlyRate}" /></td>
-							</c:if>
-							<td><c:out value="${employee.type}" /></td>
-							<c:if test="${sessionScope.role eq 'Manager'}">
-
-								<td><a href="edit_employee?id=${employee.id}">Edit</a></td>
-								<td><a href="delete_user?id=$&type=employee{employee.id}">Delete</a></td>
-							</c:if>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
 	</div>
 	<script src="static/js/bootstrap.min.js"></script>
 	<script src="static/js/jquery-2.2.3.min.js"></script>

@@ -16,57 +16,46 @@ import beans.Account;
 import beans.AccountStock;
 import beans.Client;
 import beans.Employee;
-import beans.Order;
-import beans.Transaction;
+import beans.Stock;
 import beans.User;
 import dao.AccountDAO;
 import dao.AccountStockDAO;
 import dao.ClientDAO;
 import dao.EmployeeDAO;
 import dao.OrderDAO;
-import dao.TransactionDAO;
+import dao.StockDAO;
 import dao.UserDAO;
 
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/transaction")
-public class TransactionServlet extends HttpServlet {
+@WebServlet("/edit_employee")
+public class EditEmployeeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
 	private AccountDAO accountDAO;
-	private OrderDAO orderDAO;
-	private TransactionDAO transactionDAO;
+	private EmployeeDAO employeeDAO;
 
 	public void init() {
 		userDAO = new UserDAO();
 		accountDAO = new AccountDAO();
-		orderDAO = new OrderDAO();
-		transactionDAO = new TransactionDAO();
+		employeeDAO = new EmployeeDAO();
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
 		String password = (String) session.getAttribute("password");
 		String role = (String) session.getAttribute("role");
-		int orderId = Integer.parseInt(request.getParameter("order"));
 		User user = userDAO.getUser(username, password);
-		Order order = null;
-		if (user != null) {
-			order = orderDAO.getOrder(orderId);
-		}
-		Transaction transaction = null;
-		if (order != null && (!role.equals("Client") || order.getClient() == user.getSsn())) {
-			transaction = transactionDAO.getTransaction(orderId);
-		}
+		int id = Integer.parseInt(request.getParameter("id"));
 		RequestDispatcher rd;
-		if (transaction != null) {
-			request.setAttribute("transaction", transaction);
-			rd = request.getRequestDispatcher("transaction.jsp");
+		if (user != null && role.equals("Manager")) {
+			User u = userDAO.getUser(id);
+			Employee employee = employeeDAO.getEmployee(id);
+			request.setAttribute("user", u);
+			request.setAttribute("employee", employee);
+			rd = request.getRequestDispatcher("edit_employee.jsp");
 		}
 		else {
 			request.setAttribute("message", "Something went wrong.");
@@ -74,5 +63,5 @@ public class TransactionServlet extends HttpServlet {
 		}
 		rd.forward(request, response);
 	}
-
+		
 }

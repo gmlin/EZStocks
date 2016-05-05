@@ -1,5 +1,6 @@
 package beans;
 
+import dao.ClientDAO;
 import dao.UserDAO;
 
 public class Client {
@@ -32,6 +33,16 @@ public class Client {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+	public String getFirstName() {
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(id);
+		return user.getFirstName();
+	}
+	public String getLastName() {
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(id);
+		return user.getLastName();
+	}
 	public String getName() {
 		UserDAO userDAO = new UserDAO();
 		User user = userDAO.getUser(id);
@@ -41,5 +52,9 @@ public class Client {
 		UserDAO userDAO = new UserDAO();
 		User user = userDAO.getUser(id);
 		return user.getUsername();
+	}
+	public double getRevenue() {
+		ClientDAO clientDAO= new ClientDAO();
+		return clientDAO.getClientRevenue(getFirstName(), getLastName());
 	}
 }

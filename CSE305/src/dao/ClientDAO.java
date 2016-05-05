@@ -15,7 +15,7 @@ public class ClientDAO {
 	private Connection connection;
 	private Statement statement;
 	private ResultSet rs;
-	
+
 	public Client getClient(int id) {
 		String query = "SELECT * FROM client WHERE id=" + id;
 		Client client = null;
@@ -44,7 +44,7 @@ public class ClientDAO {
 		}
 		return client;
 	}
-	
+
 	public List<Client> getClients() {
 		String query = "SELECT * FROM client";
 		List<Client> clients = new ArrayList<Client>();
@@ -79,7 +79,8 @@ public class ClientDAO {
 	public boolean addClient(String username, String password, int ssn, String first, String last,
 			String address, String city, String state, int zip, long phone, String email, long cc) {
 		String query = "INSERT INTO Client (Id, Email, Rating, CC) VALUES ("
-				+ ssn + ",'" + email + "'," + 1 + "," + cc + ")";
+				+ ssn + ",'" + email + "'," + 1 + "," + cc + ") ON DUPLICATE KEY UPDATE Email='" + email + "', "
+						+ "CC=" + cc;
 		try {
 			connection = ConnectionManager.createConnection();
 			connection.setAutoCommit(false);
@@ -107,7 +108,7 @@ public class ClientDAO {
 		String query = "SELECT Client.* FROM Client "
 				+ "INNER JOIN `Order` INNER JOIN Transaction "
 				+ "ON `Order`.client=Client.Id AND `Order`.Id=Transaction.`Order` " 
-				+ "GROUP BY Client.Id ORDER BY SUM(Fee) DESC LIMIT 1";
+				+ "GROUP BY Client.Id ORDER BY SUM(NumShares * Transaction.PricePerShare + Fee) DESC LIMIT 1";
 		Client client = null;
 		try {
 			connection = ConnectionManager.createConnection();
@@ -133,5 +134,33 @@ public class ClientDAO {
 			}
 		}
 		return client;
+	}
+
+	public double getClientRevenue(String first, String last) {
+		String query = "SELECT SUM(Transaction.PricePerShare * `Order`.NumShares + Fee) FROM "
+				+ "User INNER JOIN `Order` INNER JOIN Transaction ON "
+				+ "User.SSN=`Order`.Client AND `Order`.Id=Transaction.`Order` "
+				+ "WHERE FirstName='" + first + "' AND LastName='" + last + "'";
+		double result = 0;
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if (rs.next()) {
+				result = rs.getDouble(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 }

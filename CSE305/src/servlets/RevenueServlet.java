@@ -2,6 +2,7 @@ package servlets;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -16,33 +17,31 @@ import beans.Account;
 import beans.AccountStock;
 import beans.Client;
 import beans.Employee;
-import beans.Order;
-import beans.Transaction;
+import beans.Stock;
 import beans.User;
 import dao.AccountDAO;
 import dao.AccountStockDAO;
 import dao.ClientDAO;
 import dao.EmployeeDAO;
-import dao.OrderDAO;
-import dao.TransactionDAO;
+import dao.StockDAO;
 import dao.UserDAO;
 
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/transaction")
-public class TransactionServlet extends HttpServlet {
+@WebServlet("/revenue")
+public class RevenueServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
-	private AccountDAO accountDAO;
-	private OrderDAO orderDAO;
-	private TransactionDAO transactionDAO;
+	private StockDAO stockDAO;
+	private EmployeeDAO employeeDAO;
+	private ClientDAO clientDAO;
 
 	public void init() {
 		userDAO = new UserDAO();
-		accountDAO = new AccountDAO();
-		orderDAO = new OrderDAO();
-		transactionDAO = new TransactionDAO();
+		stockDAO = new StockDAO();
+		employeeDAO = new EmployeeDAO();
+		clientDAO = new ClientDAO();
 	}
 
 	/**
@@ -53,20 +52,25 @@ public class TransactionServlet extends HttpServlet {
 		String username = (String) session.getAttribute("username");
 		String password = (String) session.getAttribute("password");
 		String role = (String) session.getAttribute("role");
-		int orderId = Integer.parseInt(request.getParameter("order"));
+		String stock = request.getParameter("stock");
+		String stockType = request.getParameter("stocktype");
+		String first = request.getParameter("first");
+		String last = request.getParameter("last");
 		User user = userDAO.getUser(username, password);
-		Order order = null;
-		if (user != null) {
-			order = orderDAO.getOrder(orderId);
-		}
-		Transaction transaction = null;
-		if (order != null && (!role.equals("Client") || order.getClient() == user.getSsn())) {
-			transaction = transactionDAO.getTransaction(orderId);
-		}
 		RequestDispatcher rd;
-		if (transaction != null) {
-			request.setAttribute("transaction", transaction);
-			rd = request.getRequestDispatcher("transaction.jsp");
+		if (user != null && role.equals("Manager")) {
+			double revenue = 0;
+			if (stock != null) {
+				revenue = stockDAO.getStockRevenue(stock);
+			}
+			else if (stockType != null) {
+				revenue = stockDAO.getStockTypeRevenue(stockType);
+			}
+			else {
+				revenue = clientDAO.getClientRevenue(first, last);
+			}
+			request.setAttribute("revenue", revenue);
+			rd = request.getRequestDispatcher("revenue.jsp");
 		}
 		else {
 			request.setAttribute("message", "Something went wrong.");

@@ -42,4 +42,8 @@ public class Stock {
 		StockDAO stockDAO = new StockDAO();
 		return stockDAO.getNumSold(symbol);
 	}
+	public int getNumTraded() {
+		StockDAO stockDAO = new StockDAO();
+		return stockDAO.getNumTraded(symbol);
+	}
 }

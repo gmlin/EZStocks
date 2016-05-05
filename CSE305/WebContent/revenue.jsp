@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Profile</title>
+<title>Revenue Summary</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="static/css/bootstrap.min.css">
@@ -39,40 +39,10 @@
 				<c:out value="${requestScope.message}" />
 			</div>
 		</c:if>
-		<jsp:useBean id="user" class="beans.User" scope="request" />
+		<h3>Revenue</h3>
 		<ul class="list-group">
-			<li class="list-group-item">Username: <c:out value="${user.username}" />
+			<li class="list-group-item">Total Revenue: <c:out value="${requestScope.revenue}" />
 			</li>
-			<li class="list-group-item">SSN: <c:out value="${user.ssn}" />
-			</li>
-			<li class="list-group-item">Last Name: <c:out value="${user.lastName}" />
-			</li>
-			<li class="list-group-item">First Name: <c:out value="${user.firstName}" />
-			</li>
-			<li class="list-group-item">Address: <c:out value="${user.address}" />
-			</li>
-			<li class="list-group-item">City: <c:out value="${user.city}" />
-			</li>
-			<li class="list-group-item">State: <c:out value="${user.state}" />
-			</li>
-			<li class="list-group-item">Zip: <c:out value="${user.zipCode}" />
-			</li>
-			<li class="list-group-item">Phone: <c:out value="${user.phoneNumber}" />
-			</li>
-			<c:if test="${sessionScope.role eq 'Client'}">
-				<jsp:useBean id="client" class="beans.Client" scope="request" />
-				<li class="list-group-item">Email: <c:out value="${client.email}" />
-				</li>
-				<li class="list-group-item">Credit Card: <c:out value="${client.creditCard}" />
-				</li>
-				<li class="list-group-item">Rating: <c:out value="${client.rating}" />
-				</li>
-			</c:if>
-			<c:if test="${sessionScope.role ne 'Client'}">
-				<jsp:useBean id="employee" class="beans.Employee" scope="request" />
-				<li class="list-group-item">Start Date: <c:out value="${employee.startDate}" />
-				</li>
-			</c:if>
 		</ul>
 	</div>
 	<script src="static/js/bootstrap.min.js"></script>

@@ -2,6 +2,8 @@ package beans;
 
 import java.sql.Date;
 
+import dao.ClientDAO;
+import dao.EmployeeDAO;
 import dao.UserDAO;
 
 public class Employee {
@@ -34,6 +36,16 @@ public class Employee {
 	public void setType(String type) {
 		this.type = type;
 	}
+	public String getFirstName() {
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(id);
+		return user.getFirstName();
+	}
+	public String getLastName() {
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(id);
+		return user.getLastName();
+	}
 	public String getName() {
 		UserDAO userDAO = new UserDAO();
 		User user = userDAO.getUser(id);
@@ -43,5 +55,9 @@ public class Employee {
 		UserDAO userDAO = new UserDAO();
 		User user = userDAO.getUser(id);
 		return user.getUsername();
+	}
+	public double getRevenue() {
+		EmployeeDAO employeeDAO= new EmployeeDAO();
+		return employeeDAO.getBrokerRevenue(getFirstName(), getLastName());
 	}
 }

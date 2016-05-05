@@ -28,6 +28,7 @@
 				</c:if>
 				<li><a href="stocks">Stocks</a></li>
 				<li><a href="logout">Logout</a></li>
+				<li><a href="help.jsp">Help</a></li>
 			</ul>
 		</div>
 	</nav>

@@ -86,7 +86,10 @@ public class UserDAO {
 	public void addUser(Connection conn, String username, String password, int ssn, String last, String first, String address,
 			String city, String state, int zip, long phone) {
 		String query = "INSERT INTO User (Username, Password, SSN, LastName, FirstName, Address, City, State, ZipCode, PhoneNumber) VALUES ('"
-				+ username +"','" + password +"'," + ssn + ",'" + last + "','" + first + "','" + address + "','" + city + "','" + state + "'," + zip + "," + phone + ")";
+				+ username +"','" + password +"'," + ssn + ",'" + last + "','" + first + "','" + address + "','" + city + "','" + state + "'," + zip + "," + phone + ") "
+						+ "ON DUPLICATE KEY UPDATE Username='" + username +"', Password='" + password + "', SSN=" + ssn + ", "
+								+ "LastName='" + last + "', FirstName='" + first + "', Address='" + address + "', City='" + city + "', "
+										+ "State='" + state + "', ZipCode=" + zip + ", PhoneNumber=" + phone;
 		try {
 			statement = conn.createStatement();
 			statement.executeUpdate(query);
@@ -101,6 +104,26 @@ public class UserDAO {
 			}
 		}
 		
+	}
+
+	public void deleteUser(int id) {
+		String query = "DELETE FROM User WHERE SSN=" + id;
+		try {
+			connection = ConnectionManager.createConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			statement.close();
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 	}
 	
 }

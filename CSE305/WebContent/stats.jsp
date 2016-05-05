@@ -29,6 +29,7 @@
 				</c:if>
 				<li><a href="stocks">Stocks</a></li>
 				<li><a href="logout">Logout</a></li>
+				<li><a href="help.jsp">Help</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -54,10 +55,29 @@
 			</div>
 			<div class="col-sm-6">
 				<h3>Revenue summary</h3>
-				<ul class="list-group">
-					<li class="list-group-item"><c:out
-							value="${requestScope.revenue}" /></li>
-				</ul>
+				<div class="row">
+					<form action="revenue" method="get">
+						<label for="stock">Stock: </label> <input type="text" name="stock"
+							id="stock" />
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+				<div class="row">
+					<form action="revenue" method="get">
+						<label for="stockType">Stock type: </label> <input type="text"
+							name="stocktype" id="stocktype" />
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+				<div class="row">
+					</h3>
+					<form action="revenue" method="get">
+						<label for="first">First Name: </label> <input type="text"
+							name="first" id="first" /> <label for="last">Last Name:
+						</label> <input type="text" name="last" id="last" />
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -66,6 +86,8 @@
 				<ul class="list-group">
 					<li class="list-group-item"><c:out
 							value="${requestScope.broker.name}" />
+					<li class="list-group-item"><c:out
+							value="${requestScope.broker.revenue}" /></li>
 				</ul>
 			</div>
 			<div class="col-sm-6">
@@ -73,6 +95,8 @@
 				<ul class="list-group">
 					<li class="list-group-item"><c:out
 							value="${requestScope.customer.name}" />
+					<li class="list-group-item"><c:out
+							value="${requestScope.customer.revenue}" /></li>
 				</ul>
 			</div>
 		</div>
@@ -83,7 +107,7 @@
 					<c:forEach items="${requestScope.bestSellers}" var="bestSeller">
 						<li class="list-group-item"><c:out
 								value="${bestSeller.symbol}" /> - <c:out
-								value="${bestSeller.numShares}" /> traded</li>
+								value="${bestSeller.numTraded}" /> traded</li>
 					</c:forEach>
 				</ul>
 			</div>

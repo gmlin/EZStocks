@@ -20,6 +20,7 @@ import beans.User;
 import dao.AccountDAO;
 import dao.AccountStockDAO;
 import dao.ClientDAO;
+import dao.ConnectionManager;
 import dao.EmployeeDAO;
 import dao.UserDAO;
 

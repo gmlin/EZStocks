@@ -9,6 +9,7 @@ import java.util.List;
 import beans.Account;
 import beans.Client;
 import beans.Order;
+import beans.Stock;
 import beans.Transaction;
 import beans.User;
 
@@ -73,4 +74,21 @@ public class TransactionDAO {
 		return profit;
 	}
 	
+	public void addTransaction(Connection conn, Order order, Stock stock) {
+		String query = "INSERT INTO Transaction (`Order`, Fee, DateTime, PricePerShare) VALUES ("
+				+ order.getId() + ", " + 0.05 * order.getNumShares() * stock.getPricePerShare()
+				+ ", NOW(), " + stock.getPricePerShare() + ")";
+		try {
+			statement = conn.createStatement();
+			statement.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+	}
 }

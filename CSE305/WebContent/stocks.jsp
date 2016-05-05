@@ -29,6 +29,7 @@
 				</c:if>
 				<li><a href="stocks">Stocks</a></li>
 				<li><a href="logout">Logout</a></li>
+				<li><a href="help.jsp">Help</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -43,30 +44,30 @@
 			<br>
 		</c:if>
 		<c:if test="${sessionScope.role eq 'Client'}">
-		<div class="row">
-			<div class="col-sm-6">
-				<h3>Best sellers</h3>
-				<ol class="list-group">
-					<c:forEach items="${requestScope.bestSellers}" var="bestSeller">
-						<li class="list-group-item"><c:out
-								value="${bestSeller.symbol}" /> - <c:out
-								value="${bestSeller.numSold}" /> sold</li>
-					</c:forEach>
-				</ol>
-			</div>
-			<c:if test="${not empty requestScope.recommendations}">
+			<div class="row">
 				<div class="col-sm-6">
-					<h3>Recommended for you</h3>
-					<ul class="list-group">
-						<c:forEach items="${requestScope.recommendations}"
-							var="recommendation">
+					<h3>Best sellers</h3>
+					<ol class="list-group">
+						<c:forEach items="${requestScope.bestSellers}" var="bestSeller">
 							<li class="list-group-item"><c:out
-									value="${recommendation.symbol}" /></li>
+									value="${bestSeller.symbol}" /> - <c:out
+									value="${bestSeller.numSold}" /> sold</li>
 						</c:forEach>
-					</ul>
+					</ol>
 				</div>
-			</c:if>
-		</div>
+				<c:if test="${not empty requestScope.recommendations}">
+					<div class="col-sm-6">
+						<h3>Recommended for you</h3>
+						<ul class="list-group">
+							<c:forEach items="${requestScope.recommendations}"
+								var="recommendation">
+								<li class="list-group-item"><c:out
+										value="${recommendation.symbol}" /></li>
+							</c:forEach>
+						</ul>
+					</div>
+				</c:if>
+			</div>
 		</c:if>
 		<div class="row">
 			<div class="col-sm-6">
@@ -86,7 +87,12 @@
 				</form>
 			</div>
 		</div>
-
+		<c:if test="${sessionScope.role eq 'Manager'}">
+			<form action="stocks" method="post">
+				<input type="hidden" name="close" value="yes" />
+				<button type="submit" class="btn btn-default">Close Market</button>
+			</form>
+		</c:if>
 		<h3>Available Stocks</h3>
 		<table class="table">
 			<thead>
@@ -97,7 +103,8 @@
 					<th>Price</th>
 					<th>Num Shares</th>
 					<c:if test="${sessionScope.role eq 'Client'}">
-					<th></th></c:if>
+						<th></th>
+					</c:if>
 					<th></th>
 				</tr>
 			</thead>
@@ -108,10 +115,22 @@
 						<td><c:out value="${stock.symbol}" /></td>
 						<td><c:out value="${stock.company}" /></td>
 						<td><c:out value="${stock.type}" /></td>
-						<td><c:out value="${stock.pricePerShare}" /></td>
+						<c:if test="${sessionScope.role eq 'Manager'}">
+							<td>
+								<form action="stocks" method="post">
+									<input type="hidden" name="stock" value="${stock.symbol}" /> <input
+										type="text" name="price" id="price"
+										value="${stock.pricePerShare}" />
+									<button type="submit" class="btn btn-default">Set</button>
+								</form>
+						</c:if>
+						<c:if test="${sessionScope.role ne 'Manager'}">
+							<td><c:out value="${stock.pricePerShare}" /></td>
+						</c:if>
 						<td><c:out value="${stock.numShares}" /></td>
 						<c:if test="${sessionScope.role eq 'Client'}">
-						<td><a href="create_order?type=buy&stock=${stock.symbol}">Buy</a></td></c:if>
+							<td><a href="create_order?type=buy&stock=${stock.symbol}">Buy</a></td>
+						</c:if>
 						<td><a href="stockHistory?stock=${stock.symbol}">Price
 								History</a></td>
 					</tr>

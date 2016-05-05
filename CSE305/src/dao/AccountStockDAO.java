@@ -50,4 +50,38 @@ public class AccountStockDAO {
 		return accountStocks;
 	}
 
+	public void updatePortfolio(Connection conn, int client, int accountNum, String symbol, int numShares, String orderType) {
+		String query = "SELECT * FROM AccountStock WHERE client=" + client + " AND stock='" + symbol + "' "
+				+ "AND AccountNum=" + accountNum;
+		try {
+			statement = conn.createStatement();
+			rs = statement.executeQuery(query);
+			if (rs.next()) {
+				if (orderType.equals("Buy")) {
+				query = "UPDATE AccountStock SET NumShares=NumShares+" + numShares
+						+ " WHERE Client=" + client + " AND AccountNum=" + accountNum + " AND Stock='" + symbol +"'";
+				}
+				else {
+					query = "UPDATE AccountStock SET NumShares=NumShares-" + numShares
+							+ " WHERE Client=" + client + " AND AccountNum=" + accountNum + " AND Stock='" + symbol +"'";
+				}
+			}
+			else {
+				if (orderType.equals("Buy")) {
+				query = "INSERT INTO AccountStock (Client, AccountNum, Stock, NumShares) VALUES (" +
+						client + "," + accountNum + ",'" + symbol + "'," + numShares + ")";
+				}
+			}
+			statement.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
